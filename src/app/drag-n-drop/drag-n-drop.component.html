@@ -1,0 +1,64 @@
+<nav class="navbar">
+  <!-- logo -->
+  <div class="navbar-brand">
+    <a class="navbar-item">
+      <img src="assets/images/sars_logo.png">
+    </a>
+  </div>
+</nav>
+
+<div class="boxes">
+  <a class="boxes">
+    <img src="assets/images/data_uploader.png">
+  </a>
+</div>
+
+<h4>
+  <label class="compulsory">Email: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+  <input type="text" [(ngModel)]="email" class="folder-input" required="true"/>
+  <br/><br/>
+  <label class="compulsory">Upload Area: </label>
+  <input type="text" [(ngModel)]="folder" class="folder-input" required="true" [attr.disabled]="tbDisabled ? '' : null"/>
+</h4>
+
+<h4><button type="button" class="button" (click)="onLoading()" [disabled]="!folder || !email">Proceed</button>
+  &nbsp; &nbsp;<button type="button" class="button" (click)="onReset()" [disabled]="!folder || !email">Reset</button></h4>
+
+<h4 *ngIf="!toShow">The upload area entered by you doesn't exist, please enter a valid upload area</h4>
+
+<div *ngIf="isValid" class="boxes">
+  <ngx-dropzone (change)="onSelect($event)">
+      <ngx-dropzone-label>Drag n' drop some files here, or click to select files</ngx-dropzone-label>
+      <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+          <ngx-dropzone-label>{{ f.name }} - {{ f.size }} bytes</ngx-dropzone-label>
+      </ngx-dropzone-preview>
+  </ngx-dropzone>
+
+  <button type="button" class="button" (click)="folder && files.length && onUpload()" [disabled]="!folder">Upload Files</button>
+</div>
+
+<div *ngIf="getUploadedFiles().length && toShow">
+    <h3>Uploaded Files</h3>
+    <table class="full-width">
+        <tr *ngFor="let file of getUploadedFiles()">
+            <td>{{ file.name }}</td>
+            <td>
+                <progress-bar [progress]="file.percentage"
+                    [color-degraded]="{'0': '#007bff', '100': '#28a745'}"></progress-bar>
+            </td>
+        </tr>
+    </table>
+
+  <h4 *ngIf="getUploadedFiles().length && isValid">
+    <button type="button" class="button" (click)="sendEmail()" [disabled]="!folder">Submit</button>
+  </h4>
+</div>
+
+<div *ngIf="toLoad">
+  <h3>Already uploaded Files</h3>
+  <table class="full-width">
+    <tr *ngFor="let file of loadList()">
+      <td>{{ file.name }}</td>
+    </tr>
+  </table>
+</div>

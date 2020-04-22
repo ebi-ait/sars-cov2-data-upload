@@ -1,0 +1,40 @@
+.button {
+    margin-top: 0.5rem;
+    height: 1.75rem;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    background: whitesmoke;
+}
+
+.button:hover {
+    background: lightgray;
+}
+
+.full-width {
+    width: 100%
+}
+
+.half-width {
+  width: 50%
+}
+
+.boxes {
+  width: 60%;
+  height:40%
+}
+
+.folder-input {
+    height: 1.2rem;
+    width: 20rem;
+    border-radius: .5rem;
+    margin: 0 1rem;
+}
+
+.compulsory::before{
+    content: '*';
+    color: red;
+}
+
+.logo_sars_div {
+  width: 100vw;
+}
