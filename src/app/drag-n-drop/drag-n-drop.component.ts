@@ -10,22 +10,22 @@ import { environment as env } from '../../environments/environment';
   styleUrls: ['./drag-n-drop.component.css']
 })
 export class DragNDropComponent {
-  accessKeyP1 = 'AKIAJWJR36';
-  accessKeyP2 = 'TCJUZN5U3Q';
+  accessKeyP1 = 'AKIA4WBQC';
+  accessKeyP2 = 'FL3FG3SDHOK';
 
-  secKeyP1 = 'k4yNj3HVLUbp7x//ew5R';
-  secKeyP2 = 'be+PQzcsCJmgZO0Rpd18';
+  secKeyP1 = 'lagSC4LRPUNKrItluf';
+  secKeyP2 = '2ckAsu1XUqHTLbJoqLp15Y';
 
   private bucket = new S3({
     apiVersion: '2006-03-01',
-    region: 'us-west-2',
+    region: 'us-east-1',
     credentials: {
       accessKeyId: this.accessKeyP1 + this.accessKeyP2,
       secretAccessKey: this.secKeyP1 + this.secKeyP2
     }
   });
 
-  private bucketName = 'dguptaawsbucket';
+  private bucketName = 'covid-util-upload-areas';
   folder = '';
   root = 'root';
   files: any[] = [];
@@ -56,7 +56,7 @@ export class DragNDropComponent {
 
       const params = {
         Bucket: this.bucketName,
-        Key: this.root + '/' + this.folder + '/' + file.name + '.' + file.id,
+        Key: this.folder + '/' + file.name + '.' + file.id,
         Body: file,
         ACL: 'private',
         ContentType: file.type
@@ -83,7 +83,7 @@ export class DragNDropComponent {
   async onLoading() {
     this.bucket.headObject({
       Bucket: this.bucketName,
-      Key: this.root + '/' + this.folder + '/',
+      Key: this.folder + '/',
     })
       .promise()
       .then(
@@ -104,7 +104,7 @@ export class DragNDropComponent {
   loadList(): any[] {
     this.bucket.listObjects({
       Bucket: this.bucketName,
-      Prefix: this.root + '/' + this.folder + '/',
+      Prefix: this.folder + '/',
       // tslint:disable-next-line:only-arrow-functions
     }, function(err, data) {
       if (err) {
