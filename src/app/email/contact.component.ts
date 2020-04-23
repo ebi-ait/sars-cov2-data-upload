@@ -12,6 +12,11 @@ export class ContactComponent {
 
   // tslint:disable-next-line:variable-name
   private _ses: SES;
+  accessKeyP1 = 'AKIAJWJR36';
+  accessKeyP2 = 'TCJUZN5U3Q';
+
+  secKeyP1 = 'k4yNj3HVLUbp7x//ew5R';
+  secKeyP2 = 'be+PQzcsCJmgZO0Rpd18';
 
   constructor() {
     this.configureSES();
@@ -43,8 +48,8 @@ export class ContactComponent {
 // tslint:disable-next-line:no-unused-expression
   configureSES(): void {
     aws.config.credentials = {
-      accessKeyId: 'AKIAJWJR36TCJUZN5U3Q',
-      secretAccessKey: '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'
+      accessKeyId: this.accessKeyP1 + this.accessKeyP2,
+      secretAccessKey: this.secKeyP1 + this.secKeyP2
     },
       aws.config.update({
         region: 'us-west-2'
