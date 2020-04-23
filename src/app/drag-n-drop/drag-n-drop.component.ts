@@ -10,11 +10,11 @@ import { environment as env } from '../../environments/environment';
   styleUrls: ['./drag-n-drop.component.css']
 })
 export class DragNDropComponent {
-  accessKeyP1 = 'AKIA4WBQC';
-  accessKeyP2 = 'FL3FG3SDHOK';
+  accessKeyP1 = 's1';
+  accessKeyP2 = 's2';
 
-  secKeyP1 = 'lagSC4LRPUNKrItluf';
-  secKeyP2 = '2ckAsu1XUqHTLbJoqLp15Y';
+  secKeyP1 = 'sp1';
+  secKeyP2 = 'sp2';
 
   private bucket = new S3({
     apiVersion: '2006-03-01',
