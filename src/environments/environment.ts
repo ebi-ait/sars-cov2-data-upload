@@ -4,8 +4,6 @@
 
 export const environment = {
   production: false,
-  AWSACCESSKEY: 'AKIAI33SSQCOQMHW6YKA',
-  AWSSECRETKEY: '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'
 };
 
 /*

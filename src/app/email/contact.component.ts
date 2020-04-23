@@ -17,7 +17,7 @@ export class ContactComponent {
     this.configureSES();
   }
 
-  public sendMessage(email, folder: string): void {
+  public sendMessage(email, folder, notes): void {
     let params;
     params = {
       Destination: {
@@ -27,7 +27,7 @@ export class ContactComponent {
         Body: {
           Text: {
             Charset: 'UTF-8',
-            Data: email + ' has submitted files in ' + folder
+            Data: email + ' has submitted files in ' + folder + '\n with message ' + notes
           }
         },
         Subject: {
@@ -43,8 +43,8 @@ export class ContactComponent {
 // tslint:disable-next-line:no-unused-expression
   configureSES(): void {
     aws.config.credentials = {
-      accessKeyId: env.AWSACCESSKEY,
-      secretAccessKey: env.AWSSECRETKEY
+      accessKeyId: 'AKIAJWJR36TCJUZN5U3Q',
+      secretAccessKey: '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'
     },
       aws.config.update({
         region: 'us-west-2'

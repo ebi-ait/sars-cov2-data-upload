@@ -10,7 +10,7 @@ describe('workspace-project App', () => {
 
   it('should display welcome message', () => {
     page.navigateTo();
-    expect(page.getTitleText()).toEqual('sars-cov2-file-upload app is running!');
+    expect(page.getTitleText()).toEqual('sars-cov2-data-upload app is running!');
   });
 
   afterEach(async () => {

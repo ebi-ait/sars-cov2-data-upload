@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "sars-cov2-file-upload": {
+    "sars-cov2-data-upload": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:class": {
@@ -38,7 +38,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/sars-cov2-file-upload",
+            "outputPath": "dist/sars-cov2-data-upload",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -87,18 +87,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "sars-cov2-file-upload:build"
+            "browserTarget": "sars-cov2-data-upload:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "sars-cov2-file-upload:build:production"
+              "browserTarget": "sars-cov2-data-upload:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "sars-cov2-file-upload:build"
+            "browserTarget": "sars-cov2-data-upload:build"
           }
         },
         "test": {
@@ -135,11 +135,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "sars-cov2-file-upload:serve"
+            "devServerTarget": "sars-cov2-data-upload:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "sars-cov2-file-upload:serve:production"
+              "devServerTarget": "sars-cov2-data-upload:serve:production"
             }
           }
         },
@@ -150,7 +150,7 @@
       }
     }
   },
-  "defaultProject": "sars-cov2-file-upload",
+  "defaultProject": "sars-cov2-data-upload",
   "cli": {
     "analytics": "51c49e1d-9dbb-4c8f-baff-5b2c601ccd61"
   }

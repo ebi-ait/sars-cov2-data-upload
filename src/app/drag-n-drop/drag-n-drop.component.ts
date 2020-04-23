@@ -10,13 +10,18 @@ import { environment as env } from '../../environments/environment';
   styleUrls: ['./drag-n-drop.component.css']
 })
 export class DragNDropComponent {
+  accessKeyP1 = 'AKIAJWJR36';
+  accessKeyP2 = 'TCJUZN5U3Q';
+
+  secKeyP1 = 'k4yNj3HVLUbp7x//ew5R';
+  secKeyP2 = 'be+PQzcsCJmgZO0Rpd18';
 
   private bucket = new S3({
     apiVersion: '2006-03-01',
     region: 'us-west-2',
     credentials: {
-      accessKeyId: env.AWSACCESSKEY,
-      secretAccessKey: env.AWSSECRETKEY
+      accessKeyId: this.accessKeyP1 + this.accessKeyP2,
+      secretAccessKey: this.secKeyP1 + this.secKeyP2
     }
   });
 
@@ -24,6 +29,7 @@ export class DragNDropComponent {
   folder = '';
   root = 'root';
   files: any[] = [];
+  listedFiles: any[];
   uploadedFiles = {};
   toShow = true;
   isValid = false;
@@ -31,6 +37,7 @@ export class DragNDropComponent {
   tbDisabled = false;
   toLoad: boolean;
   contactComponent = new cc();
+  notes: any;
 
   onSelect(event) {
     this.files.push(...event.addedFiles.map(file => {
@@ -95,16 +102,26 @@ export class DragNDropComponent {
   }
 
   loadList(): any[] {
-    this.toLoad = true;
-    return Object.values(this.bucket.getObject({
+    this.bucket.listObjects({
       Bucket: this.bucketName,
-      Key: this.root + '/' + this.folder + '/',
+      Prefix: this.root + '/' + this.folder + '/',
       // tslint:disable-next-line:only-arrow-functions
     }, function(err, data) {
       if (err) {
         console.error(err); // an error occurred
+      } else {
+        console.log(data.Contents);
       }
-    }));
+
+      if (data != null) {
+        this.listedFiles.concat(data.Contents);
+      }
+    });
+
+    if (this.listedFiles.length > 0) {
+      this.toLoad = true;
+    }
+    return this.listedFiles;
   }
 
   onReset(){
@@ -115,7 +132,8 @@ export class DragNDropComponent {
   }
 
   sendEmail() {
-    this.contactComponent.sendMessage(this.email, this.folder);
+    console.log('Notes ' + this.notes);
+    this.contactComponent.sendMessage(this.email, this.folder, this.notes);
   }
 
   getUploadedFiles(): any[] {

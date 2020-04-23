@@ -1,5 +1,5 @@
 {
-  "name": "sars-cov2-file-upload",
+  "name": "sars-cov2-data-upload",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
