@@ -42,3 +42,24 @@
 .logo_sars_div {
   width: 100vw;
 }
+
+.upload-details {
+    width: 30%;
+    margin: 8px;
+    padding: 8px;
+}
+
+.upload-area {
+    width: 100%;
+}
+
+.upload-details-form-field {
+    width: 100%;
+}
+
+.upload-details-button-row button,
+.upload-details-button-row a,
+.upload-details-button-row {
+    margin-left: 8px;
+    float: right;
+}

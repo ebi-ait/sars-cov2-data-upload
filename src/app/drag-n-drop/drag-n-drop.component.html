@@ -13,28 +13,50 @@
   </a>
 </div>
 
-<h4>
-  <label class="compulsory">Email: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-  <input type="text" [(ngModel)]="email" class="folder-input" required="true"/>
-  <br/><br/>
-  <label class="compulsory">Upload Area: </label>
-  <input type="text" [(ngModel)]="folder" class="folder-input" required="true" [attr.disabled]="tbDisabled ? '' : null"/>
-</h4>
+<div class="upload-details">
+    <mat-form-field class="upload-details-form-field">
+        <mat-label>Email</mat-label>
+        <label>
+            <input type="text" [(ngModel)]="email" matInput required>
+        </label>
+        <button (click)="email=''" *ngIf="email" aria-label="Clear" mat-button mat-icon-button matSuffix>
+            <mat-icon>close</mat-icon>
+        </button>
+    </mat-form-field>
 
-<h4><button type="button" class="button" (click)="onLoading()" [disabled]="!folder || !email">Proceed</button>
-  &nbsp; &nbsp;<button type="button" class="button" (click)="onReset()" [disabled]="!folder || !email">Reset</button></h4>
+    <mat-form-field class="upload-details-form-field">
+        <mat-label>Upload Area</mat-label>
+        <label>
+            <input [(ngModel)]="folder" [attr.disabled]="tbDisabled ? '' : null" matInput required type="text">
+        </label>
+        <button mat-button *ngIf="folder" matSuffix mat-icon-button aria-label="Clear" (click)="folder=''">
+            <mat-icon>close</mat-icon>
+        </button>
+    </mat-form-field>
+
+    <div class="upload-details-button-row">
+        <button mat-raised-button color="primary" (click)="onLoading()" [disabled]="!folder || !email">Proceed</button>
+        <button mat-raised-button (click)="onReset()" [disabled]="!folder || !email">Reset</button>
+    </div>
+</div>
+
 
 <h4 *ngIf="!toShow">The upload area entered by you doesn't exist, please enter a valid upload area</h4>
 
-<div *ngIf="isValid" class="boxes">
-  <ngx-dropzone (change)="onSelect($event)">
-      <ngx-dropzone-label>Drag n' drop some files here, or click to select files</ngx-dropzone-label>
-      <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
-          <ngx-dropzone-label>{{ f.name }} - {{ f.size }} bytes</ngx-dropzone-label>
-      </ngx-dropzone-preview>
-  </ngx-dropzone>
+<!--<div *ngIf="isValid" class="boxes">-->
+<div *ngIf="true" class="upload-details">
+    <ngx-dropzone (change)="onSelect($event)" class="upload-area">
+        <ngx-dropzone-label>Drag n' drop some files here, or click to select files</ngx-dropzone-label>
+        <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+            <ngx-dropzone-label>{{ f.name }} - {{ f.size }} bytes</ngx-dropzone-label>
+        </ngx-dropzone-preview>
+    </ngx-dropzone>
 
-  <button type="button" class="button" (click)="folder && files.length && onUpload()" [disabled]="!folder">Upload Files</button>
+    <div class="upload-details-button-row">
+    <button (click)="folder && files.length && onUpload()" [disabled]="!folder" color="primary" mat-raised-button>
+        Upload Files
+    </button>
+    </div>
 </div>
 
 <div *ngIf="getUploadedFiles().length && toShow">
