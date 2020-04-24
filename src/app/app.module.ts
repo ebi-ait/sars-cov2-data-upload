@@ -15,6 +15,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatTableModule} from '@angular/material/table';
 import {AppRoutingModule} from './app-routing.module';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 @NgModule({
     declarations: [
@@ -34,7 +35,8 @@ import {AppRoutingModule} from './app-routing.module';
         MatIconModule,
         MatButtonModule,
         MatTableModule,
-        AppRoutingModule
+        AppRoutingModule,
+        MatProgressBarModule
     ],
     providers: [],
     bootstrap: [AppComponent]

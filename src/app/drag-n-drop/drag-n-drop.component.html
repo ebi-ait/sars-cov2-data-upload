@@ -73,9 +73,9 @@
                     <tr *ngFor="let file of getUploadedFiles()">
                         <td>{{file.name}}</td>
                         <td>
-                            <progress-bar [progress]="file.percentage"
-                                          [color-degraded]="{'0': '#007bff', '100': '#28a745'}"></progress-bar>
-<!--                            <mat-progress-bar mode="determinate" value="file.percentage"></mat-progress-bar>-->
+                            <!--<progress-bar [progress]="file.percentage"
+                                          [color-degraded]="{'0': '#007bff', '100': '#28a745'}"></progress-bar>-->
+                            <mat-progress-bar mode="determinate" [value]="file.percentage" class="file-progress"></mat-progress-bar>
                         </td>
                     </tr>
                 </table>
