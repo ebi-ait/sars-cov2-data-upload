@@ -42,3 +42,102 @@
 .logo_sars_div {
   width: 100vw;
 }
+
+.upload-container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.upload-details-container {
+    width: 60%;
+    float: left;
+}
+
+.upload-details {
+    width: 80%;
+    margin: 20px 8px 8px;
+    float: left;
+}
+
+.upload-details-files {
+    width: 80%;
+    margin: 8px;
+    float: left;
+}
+
+.upload-area-container {
+    width: 100%;
+    float: left;
+}
+
+.uploaded-files-container {
+    width: 40%;
+    margin-top: 30px;
+    padding-top: 20px;
+    margin-bottom: 40px;
+    float: left;
+}
+.uploaded-files-div {
+    padding-top: 20px;
+    margin-bottom: 40px;
+}
+
+.uploaded-files-div {
+    padding-top: 20px;
+    margin-bottom: 40px;
+}
+
+.upload-instructions {
+}
+
+.upload-area {
+}
+
+.upload-details-form-field {
+    width: 100%;
+    float: left;
+}
+
+.upload-details-button-row button,
+.upload-details-button-row a,
+.upload-details-button-row {
+    margin-left: 8px;
+    float: right;
+}
+
+.upload-area-button-row button,
+.upload-area-button-row a,
+.upload-area-button-row {
+    margin-left: 8px;
+    margin-top: 8px;
+    float: right;
+}
+
+.mat-column-name {
+    width: 150px;
+}
+
+.mat-column-format {
+    width: 100px;
+}
+
+.mat-column-size {
+    width: 100px;
+}
+
+.mat-column-date {
+    width: 250px;
+}
+
+.mat-column-size {
+  width: 100px;
+}
+
+.mat-column-date {
+  width: 250px;
+}
+
+.file-progress {
+    width: 400px;
+    height: 1em;
+}
