@@ -1,14 +1,15 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import * as S3 from 'aws-sdk/clients/s3';
 import {v4 as uuidv4} from 'uuid';
 import {ContactComponent as cc} from '../email/contact.component';
 import {environment as env} from '../../environments/environment';
+import {MatTable} from '@angular/material/table';
 
 export interface UploadedRecords {
-  name: string;
-  format: string;
-  size: string;
-  date: string;
+    name: string;
+    format: string;
+    size: string;
+    date: string;
 }
 
 @Component({
@@ -16,32 +17,30 @@ export interface UploadedRecords {
     templateUrl: './drag-n-drop.component.html',
     styleUrls: ['./drag-n-drop.component.css']
 })
+
 export class DragNDropComponent {
-  accessKeyP1 = 'AKIAI6R55KC2HMTQV';
-  accessKeyP2 = 'UXQ';
+    accessKeyP1 = 'AKIA4WBQC';
+    accessKeyP2 = 'FL3FG3SDHOK';
 
-  secKeyP1 = '+M80nTlsbrCdh+v4TdYf9bO5Nel2FzlYbtp';
-  secKeyP2 = 'PTzmj';
+    secKeyP1 = 'lagSC4LRPUNKrItluf';
+    secKeyP2 = '2ckAsu1XUqHTLbJoqLp15Y';
 
-  displayedColumns: string[] = ['name', 'format', 'size', 'date'];
-  uploadedFileList: UploadedRecords[] = [
-    {name: 'hello', format: 'pdf', size: '10MB', date: '01-04-2034'},
-    {name: 'world', format: 'pdf', size: '10MB', date: '01-04-2034'},
-    {name: 'upload', format: 'pdf', size: '10MB', date: '01-04-2034'},
-    {name: 'file', format: 'pdf', size: '10MB', date: '01-04-2034'}];
+    @ViewChild(MatTable) table: MatTable<any>;
+    displayedColumns: string[] = ['name', 'format', 'size', 'date'];
+    uploadedFileList: UploadedRecords[] = [];
 
-  private bucket = new S3({
-    apiVersion: '2006-03-01',
-    region: 'us-west-2',
-    credentials: {
-      accessKeyId: this.accessKeyP1 + this.accessKeyP2,
-      secretAccessKey: this.secKeyP1 + this.secKeyP2
-    }
-  });
+    private bucket = new S3({
+        apiVersion: '2006-03-01',
+        region: 'us-east-1',
+        credentials: {
+            accessKeyId: this.accessKeyP1 + this.accessKeyP2,
+            secretAccessKey: this.secKeyP1 + this.secKeyP2
+        }
+    });
 
-    private bucketName = 'dguptaawsbucket';
+    private bucketName = 'covid-util-upload-areas';
 
-    folder = 'dipayan_s3';
+    folder = '';
     root = 'root';
     files: any[] = [];
     listedFiles: any[];
@@ -52,6 +51,9 @@ export class DragNDropComponent {
     isValid = false;
     tbDisabled = false;
     fileWithInvalidExtension = false;
+    validationError = false;
+    validationString = '';
+    uploadFinished = false;
     toLoad: boolean;
     contactComponent = new cc();
     notes: any;
@@ -69,6 +71,9 @@ export class DragNDropComponent {
 
     async onUpload() {
         this.isValid = true;
+        this.uploadFinished = false;
+        this.validationError = false;
+        this.validationString = '';
 
         for (const file of this.files) {
             const indexOfDot = file.name.indexOf('.');
@@ -76,12 +81,10 @@ export class DragNDropComponent {
 
             if (!this.validFileExtensions.includes(extension)) {
                 this.fileWithInvalidExtension = true;
-                this.invalidFileNames = this.invalidFileNames + ' ' + file.name;
+                this.validationError = true;
+                this.validationString = 'File with invalid extension';
+                return;
             }
-        }
-
-        if (this.fileWithInvalidExtension) {
-            return;
         }
 
         for (const file of this.files) {
@@ -102,6 +105,11 @@ export class DragNDropComponent {
                 file.loaded = evt.loaded;
                 file.total = evt.total;
                 file.percentage = evt.loaded / evt.total * 100;
+
+                if (file.percentage === 100) {
+                    this.uploadFinished = true;
+                }
+
                 this.uploadedFiles[file.id] = file;
             }).send((err, data) => {
                 if (err) {
@@ -113,6 +121,7 @@ export class DragNDropComponent {
             });
         }
     }
+
 
     getInvalidFiles(): any {
         return this.invalidFileNames;
@@ -144,37 +153,45 @@ export class DragNDropComponent {
         this.loadList();
     }
 
-    // async loadList(): Promise<any[]> {
     async loadList() {
         this.toLoad = true;
 
         this.bucket.listObjects({
             Bucket: this.bucketName,
             Prefix: this.folder + '/',
-            // tslint:disable-next-line:only-arrow-functions
-        }, function(err, data) {
+        }, (err, data) => {
             if (err) {
                 console.error(err); // an error occurred
             } else {
                 console.log(data.Contents);
 
                 for (const dataFile of data.Contents) {
-                    const dataRecord = {
-                        name: dataFile.ETag,
-                        size: dataFile.Size,
-                        date: dataFile.LastModified,
-                        format: dataFile.StorageClass
-                    };
-                    this.uploadedFileList.push(dataRecord);
+                    let fileKey = dataFile.Key.split('/');
+                    let filename = '';
+                    let fileExtension = '';
+                    if (fileKey.length > 1) {
+                        fileKey = fileKey[1].split('.');
+                        if (fileKey.length > 2) {
+                            filename = fileKey[0] + '.' + fileKey[1];
+                            fileExtension = fileKey[1];
+                        } else {
+                            filename = fileKey[0];
+                        }
+                    }
+
+                    if (filename !== '') {
+                        const dataRecord: UploadedRecords = {
+                            name: filename,
+                            format: fileExtension,
+                            size: String(dataFile.Size),
+                            date: String(dataFile.LastModified)
+                        };
+                        this.uploadedFileList.push(dataRecord);
+                        this.table.renderRows();
+                    }
                 }
             }
-
-            // if (data != null) {
-            //     this.listedFiles.concat(data.Contents);
-            // }
         });
-
-        // return Object.values(this.listedFiles);
     }
 
     onReset() {

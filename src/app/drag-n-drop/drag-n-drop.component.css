@@ -43,8 +43,6 @@
   width: 100vw;
 }
 
-
-
 .upload-container {
     width: 80%;
     margin: 0 auto;
@@ -76,15 +74,18 @@
     width: 40%;
     margin-top: 30px;
     padding-top: 20px;
+    margin-bottom: 40px;
     float: left;
+}
+.uploaded-files-div {
+    padding-top: 20px;
+    margin-bottom: 40px;
 }
 
 .upload-instructions {
-    margin-top: 40px;
 }
 
 .upload-area {
-    width: 100%;
 }
 
 .upload-details-form-field {
@@ -108,21 +109,22 @@
 }
 
 .mat-column-name {
-  width: 150px;
+    width: 150px;
 }
 
 .mat-column-format {
-  width: 150px;
+    width: 100px;
 }
 
 .mat-column-size {
-  width: 150px;
+    width: 100px;
 }
 
 .mat-column-date {
-  width: 150px;
+    width: 250px;
 }
 
 .file-progress {
     width: 400px;
+    height: 1em;
 }
