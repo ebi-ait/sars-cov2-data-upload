@@ -1,0 +1,93 @@
+<div class="vf-body ">
+
+  <section class="vf-grid | vf-grid__col-3 vf-grid--has-sidebar vf-u-margin__top--xxl">
+    <div class="vf-container__content vf-content vf-grid__col--span-2">
+      <div class="vf-form__item">
+        <label for="text" class="vf-form__label vf-form__label--required"><span class="vf-u-sr-only">this field is required.</span> <span class="vf-icon vf-icon--asterick"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>asterick</title><path d="M23.555,8.729a1.505,1.505,0,0,0-1.406-.98H16.062a.5.5,0,0,1-.472-.334L13.405,1.222a1.5,1.5,0,0,0-2.81,0l-.005.016L8.41,7.415a.5.5,0,0,1-.471.334H1.85A1.5,1.5,0,0,0,.887,10.4l5.184,4.3a.5.5,0,0,1,.155.543L4.048,21.774a1.5,1.5,0,0,0,2.31,1.684l5.346-3.92a.5.5,0,0,1,.591,0l5.344,3.919a1.5,1.5,0,0,0,2.312-1.683l-2.178-6.535a.5.5,0,0,1,.155-.543l5.194-4.306A1.5,1.5,0,0,0,23.555,8.729Z"></path></svg></span></label>
+        <label for="text" class="vf-form__label">Enter your secure key</label>
+
+        <input type="text" id="text" class="vf-form__input" placeholder="format: xxxxx-xxx-xxxx-xxxxx">
+
+        <!-- Helper + Error -->
+        <!-- <p class="vf-form__helper vf-form__helper--error">You have done something wrong.</p>
+        <p class="vf-form__helper">Form helper text</p> -->
+        <p class="vf-form__helper">
+          <button class="vf-button vf-button--primary">Login</button>
+          <button class="vf-button vf-button--tertiary">Reset</button>
+        </p>
+
+
+      </div>
+    </div>
+    <div class="vf-container__content vf-content vf-grid__col--span-1">
+        <h3 class="vf-links__heading">Instructions</h3>
+        <article class="vf-summary vf-summary--publication">
+          <ol>
+            <li>Login using your passphrase</li>
+            <li>Upload files</li>
+            <li>Submit files</li>
+          </ol>
+          <p class="vf-box__text">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quis est tam dissimile homini. Portenta haec esse dicit, neque ea ratione ullo modo posse vivi;
+          </p>
+        </article>
+    </div>
+
+  </section>
+
+
+  <div class="vf-grid">
+    <!-- <h4>
+      <br/>
+      <label class="compulsory">Enter your secure key: </label>
+      <input type="text" [(ngModel)]="folder" class="folder-input" required="true" [attr.disabled]="tbDisabled ? '' : null"/>
+    </h4>
+
+    <h4><button type="button" class="button" (click)="onLoading()" [disabled]="!folder">Login</button>
+      &nbsp; &nbsp;<button type="button" class="button" (click)="onReset()" [disabled]="!folder">Reset</button></h4>
+
+    <h4 *ngIf="!toShow && isValid">The secure key entered by you is not valid, please enter a valid upload area</h4>
+
+    <div *ngIf="isValid" class="boxes">
+      <ngx-dropzone (change)="onSelect($event)">
+          <ngx-dropzone-label>Drag n' drop some files here, or click to select files. <br/>
+              (Accepted formats are: .fastq, .fq, .bam, .cram, .xls, .xlsx, .tsv, .csv, .txt)</ngx-dropzone-label>
+          <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+              <ngx-dropzone-label>{{ f.name }} - {{ f.size }} bytes</ngx-dropzone-label>
+          </ngx-dropzone-preview>
+      </ngx-dropzone>
+
+      <button type="button" class="button" (click)="folder && files.length && onUpload()" [disabled]="!folder">Upload Files</button>
+        <h4 *ngIf="fileWithInvalidExtension">You have a file with an extension that is not accepted, please remove the file and re-upload.</h4>
+    </div>
+
+    <div *ngIf="getUploadedFiles().length && isValid">
+        <h3>Uploaded Files</h3>
+        <table class="full-width">
+            <tr *ngFor="let file of getUploadedFiles()">
+                <td>{{ file.name }}</td>
+                <td>
+                    <progress-bar [progress]="file.percentage"
+                        [color-degraded]="{'0': '#007bff', '100': '#28a745'}"></progress-bar>
+                </td>
+            </tr>
+        </table>
+
+      <h4 *ngIf="getUploadedFiles().length && isValid">
+          <label>Notes: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+          <input type = "text" [(ngModel)]="notes" class="folder-input" maxlength="100"/> (max 100 characters)
+          <br/><br/>
+        <button type="button" class="button" (click)="sendEmail()" [disabled]="!folder">Submit your file</button>
+      </h4>
+    </div> -->
+
+  <!--<div *ngIf=toLoad>
+    <h3>Already uploaded Files</h3>
+    <table class="full-width">
+      <tr *ngFor="let file of loadList()">
+        <td>{{ file.name }}</td>
+      </tr>
+    </table>
+  </div>-->
+  </div>
+</div>

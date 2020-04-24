@@ -6,7 +6,8 @@ import {environment as env} from '../../environments/environment';
 
 @Component({
     selector: 'app-drag-n-drop',
-    templateUrl: './drag-n-drop.component.html',
+    // templateUrl: './drag-n-drop.component.html',
+    templateUrl: './drag-n-drop.component.new.html',
     styleUrls: ['./drag-n-drop.component.css']
 })
 export class DragNDropComponent {

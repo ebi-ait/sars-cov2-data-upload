@@ -5,6 +5,23 @@
     width: 20rem !important;
 }
 
-{
-    font-family: Calibri
-}
+
+img {
+    max-width: 100%;
+  }
+
+/* BUTTONS */
+  .vf-button--sm {
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    line-height: 1;
+    padding: 8px !important;
+  }
+  .vf-button--outline {
+    color: #3b6fb6 !important;
+  }
+
+  .vf-logo__image {
+    height: 55px;
+    margin: 0.5rem 0;
+  }
