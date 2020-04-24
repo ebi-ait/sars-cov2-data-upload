@@ -82,6 +82,11 @@
     margin-bottom: 40px;
 }
 
+.uploaded-files-div {
+    padding-top: 20px;
+    margin-bottom: 40px;
+}
+
 .upload-instructions {
 }
 
@@ -122,6 +127,14 @@
 
 .mat-column-date {
     width: 250px;
+}
+
+.mat-column-size {
+  width: 100px;
+}
+
+.mat-column-date {
+  width: 250px;
 }
 
 .file-progress {
