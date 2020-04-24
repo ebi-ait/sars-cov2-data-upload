@@ -17,11 +17,11 @@ export interface UploadedRecords {
   styleUrls: ['./drag-n-drop.component.css']
 })
 export class DragNDropComponent {
-  accessKeyP1 = 's1';
-  accessKeyP2 = 's2';
+  accessKeyP1 = 'AKIAI6R55KC2HMTQV';
+  accessKeyP2 = 'UXQ';
 
-  secKeyP1 = 'sp1';
-  secKeyP2 = 'sp2';
+  secKeyP1 = '+M80nTlsbrCdh+v4TdYf9bO5Nel2FzlYbtp';
+  secKeyP2 = 'PTzmj';
 
   displayedColumns: string[] = ['name', 'format', 'size', 'date'];
   uploadedFileList: UploadedRecords[] = [
@@ -32,15 +32,15 @@ export class DragNDropComponent {
 
   private bucket = new S3({
     apiVersion: '2006-03-01',
-    region: 'us-east-1',
+    region: 'us-west-2',
     credentials: {
       accessKeyId: this.accessKeyP1 + this.accessKeyP2,
       secretAccessKey: this.secKeyP1 + this.secKeyP2
     }
   });
 
-  private bucketName = 'covid-util-upload-areas';
-  folder = '';
+  private bucketName = 'dguptaawsbucket';
+  folder = 'dipayan_s3';
   root = 'root';
   files: any[] = [];
   listedFiles: any[];

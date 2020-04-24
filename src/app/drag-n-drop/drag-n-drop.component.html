@@ -76,7 +76,7 @@
         </div>
         <div class="upload-area-container">
             <!--<div *ngIf="isValid" class="boxes">-->
-            <div *ngIf="true" class="upload-details">
+            <div *ngIf="isValid" class="upload-details">
                 <ngx-dropzone (change)="onSelect($event)" class="upload-area">
                     <ngx-dropzone-label>Drag n' drop some files here, or click to select files</ngx-dropzone-label>
                     <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
