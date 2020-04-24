@@ -19,11 +19,11 @@ export interface UploadedRecords {
 })
 
 export class DragNDropComponent {
-    accessKeyP1 = 'AKIA4WBQC';
-    accessKeyP2 = 'FL3FG3SDHOK';
+    accessKeyP1 = 'KP1';
+    accessKeyP2 = 'KP2';
 
-    secKeyP1 = 'lagSC4LRPUNKrItluf';
-    secKeyP2 = '2ckAsu1XUqHTLbJoqLp15Y';
+    secKeyP1 = 'SKP1';
+    secKeyP2 = 'SKP2';
 
     @ViewChild(MatTable) table: MatTable<any>;
     displayedColumns: string[] = ['name', 'format', 'size', 'date'];
@@ -38,7 +38,7 @@ export class DragNDropComponent {
         }
     });
 
-    private bucketName = 'covid-util-upload-areas';
+    private bucketName = 'BUCKET_NAME';
 
     folder = '';
     root = 'root';

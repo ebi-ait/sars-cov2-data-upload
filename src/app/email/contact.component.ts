@@ -12,11 +12,11 @@ export class ContactComponent {
 
   // tslint:disable-next-line:variable-name
   private _ses: SES;
-  accessKeyP1 = 'AKIAI6R55KC2H';
-  accessKeyP2 = 'MTQVUXQ';
+  accessKeyP1 = 'KP1';
+  accessKeyP2 = 'KP2';
 
-  secKeyP1 = '+M80nTlsbrCdh+v4TdYf9bO5N';
-  secKeyP2 = 'el2FzlYbtpPTzmj';
+  secKeyP1 = 'SKP1';
+  secKeyP2 = 'SKP2';
 
   constructor() {
     this.configureSES();
