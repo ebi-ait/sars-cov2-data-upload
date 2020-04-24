@@ -13,49 +13,8 @@
   </a>
 </div>
 
-<h4>
-  <br/>
-  <label class="compulsory">Enter your secure key: </label>
-  <input type="text" [(ngModel)]="folder" class="folder-input" required="true" [attr.disabled]="tbDisabled ? '' : null"/>
-</h4>
 
-<h4><button type="button" class="button" (click)="onLoading()" [disabled]="!folder">Login</button>
-  &nbsp; &nbsp;<button type="button" class="button" (click)="onReset()" [disabled]="!folder">Reset</button></h4>
 
-<h4 *ngIf="!toShow && isValid">The secure key entered by you is not valid, please enter a valid upload area</h4>
-
-<div *ngIf="isValid" class="boxes">
-  <ngx-dropzone (change)="onSelect($event)">
-      <ngx-dropzone-label>Drag n' drop some files here, or click to select files. <br/>
-          (Accepted formats are: .fastq, .fq, .bam, .cram, .xls, .xlsx, .tsv, .csv, .txt)</ngx-dropzone-label>
-      <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
-          <ngx-dropzone-label>{{ f.name }} - {{ f.size }} bytes</ngx-dropzone-label>
-      </ngx-dropzone-preview>
-  </ngx-dropzone>
-
-  <button type="button" class="button" (click)="folder && files.length && onUpload()" [disabled]="!folder">Upload Files</button>
-    <h4 *ngIf="fileWithInvalidExtension">You have a file with an extension that is not accepted, please remove the file and re-upload.</h4>
-</div>
-
-<div *ngIf="getUploadedFiles().length && isValid">
-    <h3>Uploaded Files</h3>
-    <table class="full-width">
-        <tr *ngFor="let file of getUploadedFiles()">
-            <td>{{ file.name }}</td>
-            <td>
-                <progress-bar [progress]="file.percentage"
-                    [color-degraded]="{'0': '#007bff', '100': '#28a745'}"></progress-bar>
-            </td>
-        </tr>
-    </table>
-
-  <h4 *ngIf="getUploadedFiles().length && isValid">
-      <label>Notes: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-      <input type = "text" [(ngModel)]="notes" class="folder-input" maxlength="100"/> (max 100 characters)
-      <br/><br/>
-    <button type="button" class="button" (click)="sendEmail()" [disabled]="!folder">Submit your file</button>
-  </h4>
-</div>
 
 <!--<div *ngIf=toLoad>
   <h3>Already uploaded Files</h3>
@@ -72,16 +31,6 @@
     <div class="upload-details-container">
         <div class="upload-details">
                 <mat-form-field class="upload-details-form-field">
-                    <mat-label>Email</mat-label>
-                    <label>
-                        <input type="text" [(ngModel)]="email" matInput required>
-                    </label>
-                    <button (click)="email=''" *ngIf="email" aria-label="Clear" mat-button mat-icon-button matSuffix>
-                        <mat-icon>close</mat-icon>
-                    </button>
-                </mat-form-field>
-
-                <mat-form-field class="upload-details-form-field">
                     <mat-label>Upload Area</mat-label>
                     <label>
                         <input [(ngModel)]="folder" [attr.disabled]="tbDisabled ? '' : null" matInput required type="text">
@@ -92,26 +41,56 @@
                 </mat-form-field>
 
                 <div class="upload-details-button-row">
-                    <button mat-raised-button color="primary" (click)="onLoading()" [disabled]="!folder || !email">Proceed</button>
-                    <button mat-raised-button (click)="onReset()" [disabled]="!folder || !email">Reset</button>
+                    <button mat-raised-button color="primary" (click)="onLoading()" [disabled]="!folder">Login</button>
+                    <button mat-raised-button (click)="onReset()" [disabled]="!folder">Reset</button>
                 </div>
 
-            <h4 *ngIf="!toShow">The upload area entered by you doesn't exist, please enter a valid upload area</h4>
+            <h4 *ngIf="!toShow && isValid">The secure key entered by you is not valid, please enter a valid upload area</h4>
         </div>
         <div class="upload-area-container">
             <!--<div *ngIf="isValid" class="boxes">-->
             <div *ngIf="isValid" class="upload-details">
                 <ngx-dropzone (change)="onSelect($event)" class="upload-area">
-                    <ngx-dropzone-label>Drag n' drop some files here, or click to select files</ngx-dropzone-label>
+                    <ngx-dropzone-label>Drag n' drop some files here, or click to select files. <br/>
+                        (Accepted formats are: .fastq, .fq, .bam, .cram, .xls, .xlsx, .tsv, .csv, .txt)
+                    </ngx-dropzone-label>
                     <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
                         <ngx-dropzone-label>{{ f.name }} - {{ f.size }} bytes</ngx-dropzone-label>
                     </ngx-dropzone-preview>
                 </ngx-dropzone>
 
                 <div class="upload-area-button-row">
-                <button (click)="folder && files.length && onUpload()" [disabled]="!folder" color="primary" mat-raised-button>
-                    Upload Files
-                </button>
+                    <button (click)="folder && files.length && onUpload()" [disabled]="!folder" color="primary" mat-raised-button>
+                        Upload Files
+                    </button>
+                </div>
+                <h4 *ngIf="fileWithInvalidExtension">You have a file with an extension that is not accepted, please remove the file and re-upload.</h4>
+            </div>
+
+            <div *ngIf="getUploadedFiles().length && isValid" class="upload-details-files">
+                <h3>Uploaded Files</h3>
+                <table class="full-width">
+                    <tr *ngFor="let file of getUploadedFiles()">
+                        <td>{{file.name}}</td>
+                        <td>
+                            <progress-bar [progress]="file.percentage"
+                                          [color-degraded]="{'0': '#007bff', '100': '#28a745'}"></progress-bar>
+<!--                            <mat-progress-bar mode="determinate" value="file.percentage"></mat-progress-bar>-->
+                        </td>
+                    </tr>
+                </table>
+
+
+                <mat-form-field class="upload-details-form-field">
+                    <mat-label>Notes</mat-label>
+                    <label>
+                        <input type="text" [(ngModel)]="notes" matInput maxlength="100">
+                    </label>
+                </mat-form-field>
+                <div class="upload-area-button-row">
+                    <button (click)="sendEmail()" [disabled]="!folder" color="primary" mat-raised-button>
+                        Submit Files
+                    </button>
                 </div>
             </div>
         </div>
@@ -141,6 +120,14 @@
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                 </table>
+            </div>
+            <div class="upload-instructions">
+                <h3>Instructions</h3><hr>
+                <ol>
+                    <li>Login using your passphrase</li>
+                    <li>Upload files</li>
+                    <li>Submit files</li>
+                </ol>
             </div>
         </div>
 </div>

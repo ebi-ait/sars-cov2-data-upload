@@ -140,9 +140,12 @@ export class DragNDropComponent {
                     }
                 }
             );
+
+        this.loadList();
     }
 
-    async loadList(): Promise<any[]> {
+    // async loadList(): Promise<any[]> {
+    async loadList() {
         this.toLoad = true;
 
         this.bucket.listObjects({
@@ -154,14 +157,24 @@ export class DragNDropComponent {
                 console.error(err); // an error occurred
             } else {
                 console.log(data.Contents);
+
+                for (const dataFile of data.Contents) {
+                    const dataRecord = {
+                        name: dataFile.ETag,
+                        size: dataFile.Size,
+                        date: dataFile.LastModified,
+                        format: dataFile.StorageClass
+                    };
+                    this.uploadedFileList.push(dataRecord);
+                }
             }
 
-            if (data != null) {
-                this.listedFiles.concat(data.Contents);
-            }
+            // if (data != null) {
+            //     this.listedFiles.concat(data.Contents);
+            // }
         });
 
-        return Object.values(this.listedFiles);
+        // return Object.values(this.listedFiles);
     }
 
     onReset() {

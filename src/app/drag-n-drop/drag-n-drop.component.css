@@ -57,6 +57,12 @@
 
 .upload-details {
     width: 80%;
+    margin: 20px 8px 8px;
+    float: left;
+}
+
+.upload-details-files {
+    width: 80%;
     margin: 8px;
     float: left;
 }
@@ -68,15 +74,13 @@
 
 .uploaded-files-container {
     width: 40%;
-    margin-top: 20px;
+    margin-top: 30px;
     padding-top: 20px;
     float: left;
 }
 
-.upload-details {
-    width: 80%;
-    margin: 8px;
-    padding: 8px;
+.upload-instructions {
+    margin-top: 40px;
 }
 
 .upload-area {
@@ -86,7 +90,6 @@
 .upload-details-form-field {
     width: 100%;
     float: left;
-    margin-left: 8px;
 }
 
 .upload-details-button-row button,
