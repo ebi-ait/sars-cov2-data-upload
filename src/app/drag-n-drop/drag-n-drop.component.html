@@ -14,30 +14,30 @@
 </div>
 
 <h4>
-  <label class="compulsory">Email: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-  <input type="text" [(ngModel)]="email" class="folder-input" required="true"/>
-  <br/><br/>
-  <label class="compulsory">Upload Area: </label>
+  <br/>
+  <label class="compulsory">Enter your secure key: </label>
   <input type="text" [(ngModel)]="folder" class="folder-input" required="true" [attr.disabled]="tbDisabled ? '' : null"/>
 </h4>
 
-<h4><button type="button" class="button" (click)="onLoading()" [disabled]="!folder || !email">Proceed</button>
-  &nbsp; &nbsp;<button type="button" class="button" (click)="onReset()" [disabled]="!folder || !email">Reset</button></h4>
+<h4><button type="button" class="button" (click)="onLoading()" [disabled]="!folder">Login</button>
+  &nbsp; &nbsp;<button type="button" class="button" (click)="onReset()" [disabled]="!folder">Reset</button></h4>
 
-<h4 *ngIf="!toShow">The upload area entered by you doesn't exist, please enter a valid upload area</h4>
+<h4 *ngIf="!toShow && isValid">The secure key entered by you is not valid, please enter a valid upload area</h4>
 
 <div *ngIf="isValid" class="boxes">
   <ngx-dropzone (change)="onSelect($event)">
-      <ngx-dropzone-label>Drag n' drop some files here, or click to select files</ngx-dropzone-label>
+      <ngx-dropzone-label>Drag n' drop some files here, or click to select files. <br/>
+          (Accepted formats are: .fastq, .fq, .bam, .cram, .xls, .xlsx, .tsv, .csv, .txt)</ngx-dropzone-label>
       <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
           <ngx-dropzone-label>{{ f.name }} - {{ f.size }} bytes</ngx-dropzone-label>
       </ngx-dropzone-preview>
   </ngx-dropzone>
 
   <button type="button" class="button" (click)="folder && files.length && onUpload()" [disabled]="!folder">Upload Files</button>
+    <h4 *ngIf="fileWithInvalidExtension">You have a file with an extension that is not accepted, please remove the file and re-upload.</h4>
 </div>
 
-<div *ngIf="getUploadedFiles().length && toShow">
+<div *ngIf="getUploadedFiles().length && isValid">
     <h3>Uploaded Files</h3>
     <table class="full-width">
         <tr *ngFor="let file of getUploadedFiles()">
@@ -50,10 +50,10 @@
     </table>
 
   <h4 *ngIf="getUploadedFiles().length && isValid">
-      <label class="compulsory">Notes: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+      <label>Notes: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
       <input type = "text" [(ngModel)]="notes" class="folder-input" maxlength="100"/> (max 100 characters)
       <br/><br/>
-    <button type="button" class="button" (click)="sendEmail()" [disabled]="!folder">Submit</button>
+    <button type="button" class="button" (click)="sendEmail()" [disabled]="!folder">Submit your file</button>
   </h4>
 </div>
 
