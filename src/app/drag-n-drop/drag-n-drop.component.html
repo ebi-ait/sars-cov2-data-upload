@@ -14,36 +14,24 @@
 </div>
 
 
-
-
-<!--<div *ngIf=toLoad>
-  <h3>Already uploaded Files</h3>
-  <table class="full-width">
-    <tr *ngFor="let file of loadList()">
-      <td>{{ file.name }}</td>
-    </tr>
-  </table>
-</div>-->
-
-
 <div>
 <div class="upload-container">
     <div class="upload-details-container">
         <div class="upload-details">
-                <mat-form-field class="upload-details-form-field">
-                    <mat-label>Upload Area</mat-label>
-                    <label>
-                        <input [(ngModel)]="folder" [attr.disabled]="tbDisabled ? '' : null" matInput required type="text">
-                    </label>
-                    <button mat-button *ngIf="folder" matSuffix mat-icon-button aria-label="Clear" (click)="folder=''">
-                        <mat-icon>close</mat-icon>
-                    </button>
-                </mat-form-field>
+            <mat-form-field class="upload-details-form-field">
+                <mat-label>Upload Area</mat-label>
+                <label>
+                    <input [(ngModel)]="folder" [attr.disabled]="tbDisabled ? '' : null" matInput required type="text">
+                </label>
+                <button mat-button *ngIf="folder" matSuffix mat-icon-button aria-label="Clear" (click)="folder=''">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-form-field>
 
-                <div class="upload-details-button-row">
-                    <button mat-raised-button color="primary" (click)="onLoading()" [disabled]="!folder">Login</button>
-                    <button mat-raised-button (click)="onReset()" [disabled]="!folder">Reset</button>
-                </div>
+            <div class="upload-details-button-row">
+                <button mat-raised-button color="primary" (click)="onLoading()" [disabled]="!folder">Login</button>
+                <button mat-raised-button (click)="onReset()" [disabled]="!folder">Reset</button>
+            </div>
 
             <h4 *ngIf="!toShow && isValid">The secure key entered by you is not valid, please enter a valid upload area</h4>
         </div>
@@ -70,6 +58,9 @@
             <div *ngIf="getUploadedFiles().length && isValid" class="upload-details-files">
                 <h3>Uploaded Files</h3>
                 <table class="full-width">
+                    <!--<ul *ngFor="let file of getUploadedFiles()">
+                        <li>{{file.name}} <mat-progress-bar mode="determinate" [value]="file.percentage" class="file-progress"></mat-progress-bar></li>
+                    </ul>-->
                     <tr *ngFor="let file of getUploadedFiles()">
                         <td>{{file.name}}</td>
                         <td>
@@ -96,7 +87,7 @@
         </div>
     </div>
         <div class="uploaded-files-container">
-            <div class="uploaded-files-div">
+            <div *ngIf="isValid" class="uploaded-files-div">
                 <table mat-table [dataSource]="uploadedFileList" class="mat-elevation-z8">
                     <ng-container matColumnDef="name">
                         <th mat-header-cell *matHeaderCellDef> Name</th>

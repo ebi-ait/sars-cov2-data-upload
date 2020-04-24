@@ -1,8 +1,9 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import * as S3 from 'aws-sdk/clients/s3';
 import {v4 as uuidv4} from 'uuid';
 import {ContactComponent as cc} from '../email/contact.component';
 import {environment as env} from '../../environments/environment';
+import { MatTable } from '@angular/material/table';
 
 export interface UploadedRecords {
   name: string;
@@ -23,12 +24,14 @@ export class DragNDropComponent {
   secKeyP1 = '+M80nTlsbrCdh+v4TdYf9bO5Nel2FzlYbtp';
   secKeyP2 = 'PTzmj';
 
+  @ViewChild(MatTable) table: MatTable<any>;
   displayedColumns: string[] = ['name', 'format', 'size', 'date'];
-  uploadedFileList: UploadedRecords[] = [
-    {name: 'hello', format: 'pdf', size: '10MB', date: '01-04-2034'},
-    {name: 'world', format: 'pdf', size: '10MB', date: '01-04-2034'},
-    {name: 'upload', format: 'pdf', size: '10MB', date: '01-04-2034'},
-    {name: 'file', format: 'pdf', size: '10MB', date: '01-04-2034'}];
+  uploadedFileList: UploadedRecords[] = [];
+  // uploadedFileList: UploadedRecords[] = [
+  //   {name: 'hello', format: 'pdf', size: '10MB', date: '01-04-2034'},
+  //   {name: 'world', format: 'pdf', size: '10MB', date: '01-04-2034'},
+  //   {name: 'upload', format: 'pdf', size: '10MB', date: '01-04-2034'},
+  //   {name: 'file', format: 'pdf', size: '10MB', date: '01-04-2034'}];
 
   private bucket = new S3({
     apiVersion: '2006-03-01',
@@ -151,22 +154,38 @@ export class DragNDropComponent {
         this.bucket.listObjects({
             Bucket: this.bucketName,
             Prefix: this.folder + '/',
-            // tslint:disable-next-line:only-arrow-functions
-        }, function(err, data) {
+        }, (err, data) => {
             if (err) {
                 console.error(err); // an error occurred
             } else {
                 console.log(data.Contents);
 
                 for (const dataFile of data.Contents) {
-                    const dataRecord = {
-                        name: dataFile.ETag,
-                        size: dataFile.Size,
-                        date: dataFile.LastModified,
-                        format: dataFile.StorageClass
-                    };
-                    this.uploadedFileList.push(dataRecord);
+                    let fileKey = dataFile.Key.split('/');
+                    let filename = '';
+                    let fileExtension = '';
+                    if (fileKey.length > 1) {
+                        fileKey = fileKey[1].split('.');
+                        if (fileKey.length > 2) {
+                            filename = fileKey[0] + '.' + fileKey[1];
+                            fileExtension = fileKey[1];
+                        } else {
+                            filename = fileKey[0];
+                        }
+                    }
+
+                    if (filename !== '') {
+                        const dataRecord: UploadedRecords = {
+                            name: filename,
+                            format: fileExtension,
+                            size: String(dataFile.Size),
+                            date: String(dataFile.LastModified)
+                        };
+                        this.uploadedFileList.push(dataRecord);
+                        this.table.renderRows();
+                    }
                 }
+
             }
 
             // if (data != null) {

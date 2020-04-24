@@ -75,12 +75,17 @@
 .uploaded-files-container {
     width: 40%;
     margin-top: 30px;
-    padding-top: 20px;
+    margin-bottom: 40px;
     float: left;
 }
 
+.uploaded-files-div {
+    padding-top: 20px;
+    margin-bottom: 40px;
+}
+
 .upload-instructions {
-    margin-top: 40px;
+
 }
 
 .upload-area {
@@ -112,15 +117,15 @@
 }
 
 .mat-column-format {
-  width: 150px;
+  width: 100px;
 }
 
 .mat-column-size {
-  width: 150px;
+  width: 100px;
 }
 
 .mat-column-date {
-  width: 150px;
+  width: 250px;
 }
 
 .file-progress {
