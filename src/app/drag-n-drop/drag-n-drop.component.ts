@@ -4,6 +4,13 @@ import {v4 as uuidv4} from 'uuid';
 import {ContactComponent as cc} from '../email/contact.component';
 import { environment as env } from '../../environments/environment';
 
+export interface UploadedRecords {
+  name: string;
+  format: string;
+  size: string;
+  date: string;
+}
+
 @Component({
   selector: 'app-drag-n-drop',
   templateUrl: './drag-n-drop.component.html',
@@ -15,6 +22,13 @@ export class DragNDropComponent {
 
   secKeyP1 = 'sp1';
   secKeyP2 = 'sp2';
+
+  displayedColumns: string[] = ['name', 'format', 'size', 'date'];
+  uploadedFileList: UploadedRecords[] = [
+    {name: 'hello', format: 'pdf', size: '10MB', date: '01-04-2034'},
+    {name: 'world', format: 'pdf', size: '10MB', date: '01-04-2034'},
+    {name: 'upload', format: 'pdf', size: '10MB', date: '01-04-2034'},
+    {name: 'file', format: 'pdf', size: '10MB', date: '01-04-2034'}];
 
   private bucket = new S3({
     apiVersion: '2006-03-01',

@@ -13,52 +13,6 @@
   </a>
 </div>
 
-<div class="upload-details">
-    <mat-form-field class="upload-details-form-field">
-        <mat-label>Email</mat-label>
-        <label>
-            <input type="text" [(ngModel)]="email" matInput required>
-        </label>
-        <button (click)="email=''" *ngIf="email" aria-label="Clear" mat-button mat-icon-button matSuffix>
-            <mat-icon>close</mat-icon>
-        </button>
-    </mat-form-field>
-
-    <mat-form-field class="upload-details-form-field">
-        <mat-label>Upload Area</mat-label>
-        <label>
-            <input [(ngModel)]="folder" [attr.disabled]="tbDisabled ? '' : null" matInput required type="text">
-        </label>
-        <button mat-button *ngIf="folder" matSuffix mat-icon-button aria-label="Clear" (click)="folder=''">
-            <mat-icon>close</mat-icon>
-        </button>
-    </mat-form-field>
-
-    <div class="upload-details-button-row">
-        <button mat-raised-button color="primary" (click)="onLoading()" [disabled]="!folder || !email">Proceed</button>
-        <button mat-raised-button (click)="onReset()" [disabled]="!folder || !email">Reset</button>
-    </div>
-</div>
-
-
-<h4 *ngIf="!toShow">The upload area entered by you doesn't exist, please enter a valid upload area</h4>
-
-<!--<div *ngIf="isValid" class="boxes">-->
-<div *ngIf="true" class="upload-details">
-    <ngx-dropzone (change)="onSelect($event)" class="upload-area">
-        <ngx-dropzone-label>Drag n' drop some files here, or click to select files</ngx-dropzone-label>
-        <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
-            <ngx-dropzone-label>{{ f.name }} - {{ f.size }} bytes</ngx-dropzone-label>
-        </ngx-dropzone-preview>
-    </ngx-dropzone>
-
-    <div class="upload-details-button-row">
-    <button (click)="folder && files.length && onUpload()" [disabled]="!folder" color="primary" mat-raised-button>
-        Upload Files
-    </button>
-    </div>
-</div>
-
 <div *ngIf="getUploadedFiles().length && toShow">
     <h3>Uploaded Files</h3>
     <table class="full-width">
@@ -87,3 +41,84 @@
     </tr>
   </table>
 </div>-->
+
+
+<div>
+<div class="upload-container">
+    <div class="upload-details-container">
+        <div class="upload-details">
+                <mat-form-field class="upload-details-form-field">
+                    <mat-label>Email</mat-label>
+                    <label>
+                        <input type="text" [(ngModel)]="email" matInput required>
+                    </label>
+                    <button (click)="email=''" *ngIf="email" aria-label="Clear" mat-button mat-icon-button matSuffix>
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>
+
+                <mat-form-field class="upload-details-form-field">
+                    <mat-label>Upload Area</mat-label>
+                    <label>
+                        <input [(ngModel)]="folder" [attr.disabled]="tbDisabled ? '' : null" matInput required type="text">
+                    </label>
+                    <button mat-button *ngIf="folder" matSuffix mat-icon-button aria-label="Clear" (click)="folder=''">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>
+
+                <div class="upload-details-button-row">
+                    <button mat-raised-button color="primary" (click)="onLoading()" [disabled]="!folder || !email">Proceed</button>
+                    <button mat-raised-button (click)="onReset()" [disabled]="!folder || !email">Reset</button>
+                </div>
+
+            <h4 *ngIf="!toShow">The upload area entered by you doesn't exist, please enter a valid upload area</h4>
+        </div>
+        <div class="upload-area-container">
+            <!--<div *ngIf="isValid" class="boxes">-->
+            <div *ngIf="true" class="upload-details">
+                <ngx-dropzone (change)="onSelect($event)" class="upload-area">
+                    <ngx-dropzone-label>Drag n' drop some files here, or click to select files</ngx-dropzone-label>
+                    <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+                        <ngx-dropzone-label>{{ f.name }} - {{ f.size }} bytes</ngx-dropzone-label>
+                    </ngx-dropzone-preview>
+                </ngx-dropzone>
+
+                <div class="upload-area-button-row">
+                <button (click)="folder && files.length && onUpload()" [disabled]="!folder" color="primary" mat-raised-button>
+                    Upload Files
+                </button>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="uploaded-files-container">
+            <div class="uploaded-files-div">
+                <table mat-table [dataSource]="uploadedFileList" class="mat-elevation-z8">
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef> Name</th>
+                        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="format">
+                        <th mat-header-cell *matHeaderCellDef> Format</th>
+                        <td mat-cell *matCellDef="let element"> {{element.format}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="date">
+                        <th mat-header-cell *matHeaderCellDef> Date</th>
+                        <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="size">
+                        <th mat-header-cell *matHeaderCellDef> Size</th>
+                        <td mat-cell *matCellDef="let element"> {{element.size}} </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+            </div>
+        </div>
+</div>
+</div>
+

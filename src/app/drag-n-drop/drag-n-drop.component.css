@@ -43,8 +43,38 @@
   width: 100vw;
 }
 
+
+
+.upload-container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.upload-details-container {
+    width: 60%;
+    float: left;
+}
+
 .upload-details {
-    width: 30%;
+    width: 80%;
+    margin: 8px;
+    float: left;
+}
+
+.upload-area-container {
+    width: 100%;
+    float: left;
+}
+
+.uploaded-files-container {
+    width: 40%;
+    margin-top: 20px;
+    padding-top: 20px;
+    float: left;
+}
+
+.upload-details {
+    width: 80%;
     margin: 8px;
     padding: 8px;
 }
@@ -55,6 +85,8 @@
 
 .upload-details-form-field {
     width: 100%;
+    float: left;
+    margin-left: 8px;
 }
 
 .upload-details-button-row button,
@@ -62,4 +94,27 @@
 .upload-details-button-row {
     margin-left: 8px;
     float: right;
+}
+
+.upload-area-button-row button,
+.upload-area-button-row a,
+.upload-area-button-row {
+    margin-left: 8px;
+    float: right;
+}
+
+.mat-column-name {
+  width: 150px;
+}
+
+.mat-column-format {
+  width: 150px;
+}
+
+.mat-column-size {
+  width: 150px;
+}
+
+.mat-column-date {
+  width: 150px;
 }
