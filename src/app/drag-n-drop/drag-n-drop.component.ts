@@ -47,16 +47,17 @@ export class DragNDropComponent {
     validFileExtensions: any[] = ['.fastq', '.fq', '.bam', '.cram', '.xls', '.xlsx', '.tsv', '.csv', '.txt', '.docx'];
     invalidFileNames: any;
     uploadedFiles = {};
+    contactComponent = new cc();
+    notes: any;
     toShow = true;
     isValid = false;
     tbDisabled = false;
     fileWithInvalidExtension = false;
     validationError = false;
-    validationString = '';
     uploadFinished = false;
     toLoad: boolean;
-    contactComponent = new cc();
-    notes: any;
+    emailSent = true;
+    submitted = false;
 
     onSelect(event) {
         this.files.push(...event.addedFiles.map(file => {
@@ -73,7 +74,6 @@ export class DragNDropComponent {
         this.isValid = true;
         this.uploadFinished = false;
         this.validationError = false;
-        this.validationString = '';
 
         for (const file of this.files) {
             const indexOfDot = file.name.indexOf('.');
@@ -82,7 +82,6 @@ export class DragNDropComponent {
             if (!this.validFileExtensions.includes(extension)) {
                 this.fileWithInvalidExtension = true;
                 this.validationError = true;
-                this.validationString = 'File with invalid extension';
                 return;
             }
         }
@@ -201,10 +200,12 @@ export class DragNDropComponent {
         this.isValid = false;
     }
 
-    sendEmail() {
-        console.log('Notes ' + this.notes);
+    async sendEmail() {
         const email = 'dipayan.gupta0@gmail.com';
-        this.contactComponent.sendMessage(email, this.folder, this.notes);
+        this.emailSent = await this.contactComponent.sendMessage(email, this.folder, this.notes);
+        console.log(this.emailSent);
+        this.notes = '';
+        this.submitted = true;
     }
 
     getUploadedFiles(): any[] {

@@ -13,15 +13,6 @@
     </a>
 </div>
 
-<!--<div *ngIf=toLoad>
-  <h3>Already uploaded Files</h3>
-  <table class="full-width">
-    <tr *ngFor="let file of loadList()">
-      <td>{{ file.name }}</td>
-    </tr>
-  </table>
-</div>-->
-
 <div>
     <div class="upload-container">
         <div class="upload-details-container">
@@ -97,6 +88,8 @@
                         <button (click)="sendEmail()" [disabled]="!folder" color="primary" mat-raised-button>
                             Submit Files
                         </button>
+
+                        <h4 *ngIf="submitted">An email notification has been sent to - <> for your submission</h4>
                     </div>
                 </div>
             </div>

@@ -12,17 +12,17 @@ export class ContactComponent {
 
   // tslint:disable-next-line:variable-name
   private _ses: SES;
-  accessKeyP1 = 'AKIAJWJR36';
-  accessKeyP2 = 'TCJUZN5U3Q';
+  accessKeyP1 = 'AKIAI6R55KC2H';
+  accessKeyP2 = 'MTQVUXQ';
 
-  secKeyP1 = 'k4yNj3HVLUbp7x//ew5R';
-  secKeyP2 = 'be+PQzcsCJmgZO0Rpd18';
+  secKeyP1 = '+M80nTlsbrCdh+v4TdYf9bO5N';
+  secKeyP2 = 'el2FzlYbtpPTzmj';
 
   constructor() {
     this.configureSES();
   }
 
-  public sendMessage(email, folder, notes): void {
+  public async sendMessage(email, folder, notes): Promise<boolean> {
     let params;
     params = {
       Destination: {
@@ -42,7 +42,8 @@ export class ContactComponent {
       },
       Source: 'dgupta@ebi.ac.uk' // Must be registered with AWS
     };
-    this.sendEmail(params);
+
+    return await this.sendEmail(params);
   }
 
 // tslint:disable-next-line:no-unused-expression
@@ -59,14 +60,20 @@ export class ContactComponent {
     });
   }
 
-  sendEmail(params): void {
+  async sendEmail(params): Promise<boolean> {
     // tslint:disable-next-line:only-arrow-functions
-    this._ses.sendEmail(params, function(err, data) {
+    let sendEmail = false;
+    // tslint:disable-next-line:only-arrow-functions
+    await this._ses.sendEmail(params, function(err, data) {
       if (err) {
         console.log(err, err.stack);
       } else {
         console.log(data);
+        console.log('Email sent');
+        sendEmail = true;
       }
     });
+
+    return sendEmail;
   }
 }
