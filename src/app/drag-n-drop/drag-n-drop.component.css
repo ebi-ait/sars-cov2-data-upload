@@ -15,7 +15,7 @@
 }
 
 .half-width {
-  width: 50%
+    width: 50%
 }
 
 .navbar {
@@ -23,8 +23,8 @@
 }
 
 .boxes {
-  width: 100%;
-    height:205px;
+    width: 100%;
+    height: 205px;
 }
 
 .folder-input {
@@ -34,13 +34,13 @@
     margin: 0 1rem;
 }
 
-.compulsory::before{
+.compulsory::before {
     content: '*';
     color: red;
 }
 
 .logo_sars_div {
-  width: 100vw;
+    width: 100vw;
 }
 
 .upload-container {
@@ -72,14 +72,7 @@
 
 .uploaded-files-container {
     width: 40%;
-    margin-top: 30px;
-    padding-top: 20px;
-    margin-bottom: 40px;
     float: left;
-}
-.uploaded-files-div {
-    padding-top: 20px;
-    margin-bottom: 40px;
 }
 
 .uploaded-files-div {
@@ -88,6 +81,8 @@
 }
 
 .upload-instructions {
+    padding-top: 20px;
+    margin-bottom: 15px;
 }
 
 .upload-area {
@@ -130,11 +125,16 @@
 }
 
 .mat-column-size {
-  width: 100px;
+    width: 100px;
 }
 
 .mat-column-date {
-  width: 250px;
+    width: 250px;
+}
+
+.mat-table {
+    overflow: auto;
+    max-height: 500px;
 }
 
 .file-progress {

@@ -29,7 +29,8 @@
                 </mat-form-field>
 
                 <div class="upload-details-button-row">
-                    <button mat-raised-button color="primary" (click)="onLoading()" [disabled]="!folder">Login</button>
+                    <button mat-raised-button color="primary" (click)="onLoading()" [disabled]="!folder">Validate
+                    </button>
                 </div>
 
                 <h4 *ngIf="!toShow">The secure key entered by you is not valid, please enter a valid secure
@@ -39,7 +40,7 @@
             <div class="upload-area-container">
                 <!--<div *ngIf="isValid" class="boxes">-->
                 <div *ngIf="isValid" class="upload-details">
-                    <ngx-dropzone (change)="onSelect($event)" class="upload-area">
+                    <ngx-dropzone (change)="onSelect($event)" class="upload-area" [expandable]="true">
                         <ngx-dropzone-label>Drag n' drop some files here, or click to select files. <br/>
                             (Accepted formats are: .fastq, .fq, .bam, .cram, .xls, .xlsx, .tsv, .csv, .txt)
                         </ngx-dropzone-label>
@@ -49,18 +50,23 @@
                     </ngx-dropzone>
 
                     <div class="upload-area-button-row">
-                        <button (click)="folder && files.length && onUpload()" [disabled]="!folder" color="primary"
+                        <button (click)="folder && files.length && onUpload()" [disabled]="!folder || files.length == 0"
+                                color="primary"
                                 mat-raised-button>
                             Upload Files
                         </button>
                     </div>
                     <br/><br/>
                     <h4 *ngIf="fileWithInvalidExtension">You have a file with an extension that is not accepted, please
-                        remove the file and re-upload.</h4>
+                        remove the file and re-upload.
+                        <br/>Accepted formats are: .fastq, .fq, .bam, .cram, .xls, .xlsx, .tsv, .csv, .txt.
+                        <br/>Please delete the file by clicking the cross in the top right corner of the file.
+                        <br/> To submit files in an unsupported format please email our help-desk at
+                        <a href="mailto:virus-dataflow@ebi.ac.uk">virus-dataflow@ebi.ac.uk</a>.</h4>
                 </div>
 
                 <div *ngIf="getUploadedFiles().length && isValid" class="upload-details-files">
-                    <h3>Uploaded Files</h3>
+                    <h3>Previously uploaded files</h3>
                     <table class="full-width">
                         <tr *ngFor="let file of getUploadedFiles()">
                             <td>{{file.name}}</td>
@@ -89,15 +95,26 @@
                             Submit Files
                         </button>
 
-                        <h4 *ngIf="submitted">An email notification has been sent to - <> for your submission</h4>
+                        <h4 *ngIf="submitted">Notification sent for your submission</h4>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="uploaded-files-container">
+            <div class="upload-instructions">
+                <h3>Instructions</h3>
+                <hr>
+                <ol>
+                    <li>Login using your passphrase</li>
+                    <li>Upload files</li>
+                    <li>Submit files</li>
+                </ol>
+            </div>
+
             <div *ngIf="isValid" class="uploaded-files-div">
-                <table mat-table [dataSource]="uploadedFileList" class="mat-elevation-z8">
+                <h3>Uploaded files</h3>
+                <mat-table [dataSource]="uploadedFileList" class="mat-elevation-z8">
                     <ng-container matColumnDef="name">
                         <th mat-header-cell *matHeaderCellDef> Name</th>
                         <td mat-cell *matCellDef="let element"> {{element.name}} </td>
@@ -119,17 +136,7 @@
 
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                </table>
-            </div>
-
-            <div class="upload-instructions">
-                <h3>Instructions</h3>
-                <hr>
-                <ol>
-                    <li>Login using your passphrase</li>
-                    <li>Upload files</li>
-                    <li>Submit files</li>
-                </ol>
+                </mat-table>
             </div>
         </div>
     </div>

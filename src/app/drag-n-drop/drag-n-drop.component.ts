@@ -19,11 +19,11 @@ export interface UploadedRecords {
 })
 
 export class DragNDropComponent {
-    accessKeyP1 = 'KP1';
-    accessKeyP2 = 'KP2';
+    accessKeyP1 = 'AKIA4WBQC';
+    accessKeyP2 = 'FL3FG3SDHOK';
 
-    secKeyP1 = 'SKP1';
-    secKeyP2 = 'SKP2';
+    secKeyP1 = 'lagSC4LRPUNKrItluf';
+    secKeyP2 = '2ckAsu1XUqHTLbJoqLp15Y';
 
     @ViewChild(MatTable) table: MatTable<any>;
     displayedColumns: string[] = ['name', 'format', 'size', 'date'];
@@ -38,7 +38,7 @@ export class DragNDropComponent {
         }
     });
 
-    private bucketName = 'BUCKET_NAME';
+    private bucketName = 'covid-util-upload-areas';
 
     folder = '';
     root = 'root';
@@ -76,7 +76,7 @@ export class DragNDropComponent {
         this.validationError = false;
 
         for (const file of this.files) {
-            const indexOfDot = file.name.indexOf('.');
+            const indexOfDot = file.name.lastIndexOf('.');
             const extension = file.name.substring(indexOfDot);
 
             if (!this.validFileExtensions.includes(extension)) {
@@ -150,6 +150,10 @@ export class DragNDropComponent {
             );
 
         this.loadList();
+    }
+
+    loadingAndUpload() {
+        this.onLoading().then(this.onUpload);
     }
 
     async loadList() {
