@@ -141,3 +141,7 @@
     width: 400px;
     height: 1em;
 }
+
+.problem {
+    border: 1px dashed red;
+}

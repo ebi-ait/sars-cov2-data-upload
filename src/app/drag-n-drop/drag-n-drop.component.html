@@ -1,18 +1,3 @@
-<nav class="navbar">
-    <!-- logo -->
-    <div class="navbar-brand">
-        <a class="navbar-item">
-            <img src="assets/images/sars_logo.png">
-        </a>
-    </div>
-</nav>
-
-<div class="boxes">
-    <a>
-        <img src="assets/images/data_uploader.png" class="boxes">
-    </a>
-</div>
-
 <div>
     <div class="upload-container">
         <div class="upload-details-container">
@@ -34,7 +19,8 @@
                 </div>
 
                 <h4 *ngIf="!toShow">The secure key entered by you is not valid, please enter a valid secure
-                    key</h4>
+                    key. <br/> Please contact <a href="mailto:virus-dataflow@ebi.ac.uk">virus-dataflow@ebi.ac.uk</a>
+                    if you need a new key or for any problems with your existing key</h4>
             </div>
 
             <div class="upload-area-container">
@@ -56,8 +42,8 @@
                             Upload Files
                         </button>
                     </div>
-                    <br/><br/>
-                    <h4 *ngIf="fileWithInvalidExtension">You have a file with an extension that is not accepted, please
+                    <br/><br/><br/><br/>
+                    <h4 *ngIf="fileWithInvalidExtension" class="problem">You have a file with an extension that is not accepted, please
                         remove the file and re-upload.
                         <br/>Accepted formats are: .fastq, .fq, .bam, .cram, .xls, .xlsx, .tsv, .csv, .txt.
                         <br/>Please delete the file by clicking the cross in the top right corner of the file.
@@ -66,7 +52,6 @@
                 </div>
 
                 <div *ngIf="getUploadedFiles().length && isValid" class="upload-details-files">
-                    <h3>Previously uploaded files</h3>
                     <table class="full-width">
                         <tr *ngFor="let file of getUploadedFiles()">
                             <td>{{file.name}}</td>
@@ -106,14 +91,16 @@
                 <h3>Instructions</h3>
                 <hr>
                 <ol>
-                    <li>Login using your passphrase</li>
-                    <li>Upload files</li>
-                    <li>Submit files</li>
+                    <li>Enter your secure key and press Validate</li>
+                    <li>Upload your files by drag'n'drop from your PC</li>
+                    <li>Press the upload file button and wait for the files to get uploaded. Please don't close the browser or refresh at this moment</li>
+                    <li>Press Submit to get your submission processed and a notification sent to <a href="mailto:virus-dataflow@ebi.ac.uk">virus-dataflow@ebi.ac.uk</a></li>
+                    <li>In case of any issues please contact <a href="mailto:virus-dataflow@ebi.ac.uk">virus-dataflow@ebi.ac.uk</a></li>
                 </ol>
             </div>
 
             <div *ngIf="isValid" class="uploaded-files-div">
-                <h3>Uploaded files</h3>
+                <h3>Secure area contents</h3>
                 <mat-table [dataSource]="uploadedFileList" class="mat-elevation-z8">
                     <ng-container matColumnDef="name">
                         <th mat-header-cell *matHeaderCellDef> Name</th>
@@ -137,6 +124,8 @@
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                 </mat-table>
+                <br/>
+                <div *ngIf="isValid && uploadedFileList.length === 0">No records found</div>
             </div>
         </div>
     </div>

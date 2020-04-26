@@ -152,8 +152,20 @@ export class DragNDropComponent {
         this.loadList();
     }
 
-    loadingAndUpload() {
-        this.onLoading().then(this.onUpload);
+    onDelete(file) {
+        this.bucket.deleteObject({
+            Bucket: this.bucketName,
+            Key: this.folder + '/',
+        })
+            .promise()
+            .then(
+                () => {
+                    console.log('Deleted ' + file);
+                },
+                err => {
+                    console.log(err);
+                }
+            );
     }
 
     async loadList() {
