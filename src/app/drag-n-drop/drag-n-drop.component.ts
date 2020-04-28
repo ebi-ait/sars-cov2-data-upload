@@ -14,7 +14,8 @@ export interface UploadedRecords {
 
 @Component({
     selector: 'app-drag-n-drop',
-    templateUrl: './drag-n-drop.component.html',
+    // templateUrl: './drag-n-drop.component.html',
+    templateUrl: './drag-n-drop-new.component.html',
     styleUrls: ['./drag-n-drop.component.css']
 })
 
@@ -58,16 +59,56 @@ export class DragNDropComponent {
     toLoad: boolean;
     emailSent = true;
     submitted = false;
+    readyToUpload = false;
 
     onSelect(event) {
+        this.fileWithInvalidExtension = false;
+        this.validationError = false;
+        this.readyToUpload = true;
+
         this.files.push(...event.addedFiles.map(file => {
             file.id = uuidv4();
+
+            const indexOfDot = file.name.lastIndexOf('.');
+            const extension = file.name.substring(indexOfDot);
+
+            // Check that file type is among whitelisted ones
+            if (!this.validFileExtensions.includes(extension)) {
+                this.fileWithInvalidExtension = true;
+                this.validationError = true;
+                this.readyToUpload = false;
+            }
+
             return file;
+
         }));
     }
 
     onRemove(event) {
+
         this.files.splice(this.files.indexOf(event), 1);
+
+        this.fileWithInvalidExtension = false;
+        this.validationError = false;
+        this.readyToUpload = true;
+        if( this.files.length > 0 ){
+            for (const file of this.files) {
+                const indexOfDot = file.name.lastIndexOf('.');
+                const extension = file.name.substring(indexOfDot);
+
+                console.log(file)
+                if (!this.validFileExtensions.includes(extension)) {
+                    this.fileWithInvalidExtension = true;
+                    this.validationError = true;
+                    this.readyToUpload = false;
+                }
+            }
+        }
+
+
+        if(this.files.length < 1 ) {
+            this.readyToUpload = false;
+        }
     }
 
     async onUpload() {
@@ -129,6 +170,7 @@ export class DragNDropComponent {
     async onLoading() {
         this.files = [];
         this.fileWithInvalidExtension = false;
+        this.readyToUpload = false;
 
         this.bucket.headObject({
             Bucket: this.bucketName,
@@ -169,6 +211,7 @@ export class DragNDropComponent {
     }
 
     async loadList() {
+
         this.toLoad = true;
 
         this.bucket.listObjects({
