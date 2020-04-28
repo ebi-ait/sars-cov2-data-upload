@@ -47,29 +47,33 @@
                 <label  for="upload" class="vf-form__label">Select files</label>
                 <ngx-dropzone (change)="onSelect($event)" class="upload-area" [expandable]="true">
                     <ngx-dropzone-label>Drag n' drop some files here, or click to select files. <br/>
-                        (Accepted formats are: .fastq, .fq, .bam, .cram, .xls, .xlsx, .tsv, .csv, .txt)
+                        (Accepted formats are: .fastq, .fastq.gz, .fastq.bz2, .fq, .fq.gz, .fq.bz2, .bam, .cram, .xls, .xlsx, .tsv, .csv, .txt.)
                     </ngx-dropzone-label>
                     <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
                         <ngx-dropzone-label>{{ f.name }} - {{ f.size }} bytes</ngx-dropzone-label>
                     </ngx-dropzone-preview>
                 </ngx-dropzone>
 
-                <p *ngIf="readyToUpload" class="vf-u-margin__top--md vf-u-margin__bottom--sm">Please don't close the browser or refresh once you pressed the "Upload files" button. It might take a while for the files to get uploaded. You will get a message/notification once the file upload is complete</p>
+                <p *ngIf="!fileWithInvalidExtension && spreadSheetPresent" class="vf-u-margin__top--md vf-u-margin__bottom--sm">Please don't close the browser or refresh once you pressed the "Upload files" button. It might take a while for the files to get uploaded. You will get a message/notification once the file upload is complete</p>
 
                 <div class="upload-area-button-row">
                     <button (click)="folder && files.length && onUpload()" [disabled]="!folder || files.length == 0"
-                    class="vf-button " [class.vf-button--primary]="readyToUpload"
-                    [class.vf-button--tertiary]="!readyToUpload || getUploadedFiles().length">
+                    class="vf-button ">
                         Upload Files
                     </button>
-                    <!-- fileWithInvalidExtension -->
                 </div>
 
                 <p *ngIf="fileWithInvalidExtension" class="vf-u-margin__top--xxl vf-form__helper vf-form__helper--error vf-u-type__text-body--3">
                     You have a file with an extension that is not accepted, please remove the file and re-upload.
-                    <br/>Accepted formats are: .fastq, .fq, .bam, .cram, .xls, .xlsx, .tsv, .csv, .txt.
+                    <br/>Accepted formats are: .fastq, .fastq.gz, .fastq.bz2, .fq, .fq.gz, .fq.bz2, .bam, .cram, .xls, .xlsx, .tsv, .csv, .txt.
                     <br/>Please delete the file by clicking the cross in the top right corner of the file.
                     <br/> To submit files in an unsupported format please email our help-desk at
+                    <a href="mailto:virus-dataflow@ebi.ac.uk">virus-dataflow@ebi.ac.uk</a>.
+                </p>
+                <p *ngIf="!fileWithInvalidExtension && !spreadSheetPresent" class="vf-u-margin__top--xxl vf-form__helper vf-form__helper--error vf-u-type__text-body--3">
+                    You have not added the metadata file for your submission.
+                    <br/> The metadata file helps us to know details of the data files you are submitting.
+                    <br/> To know more please email our help-desk at
                     <a href="mailto:virus-dataflow@ebi.ac.uk">virus-dataflow@ebi.ac.uk</a>.
                 </p>
             </div>

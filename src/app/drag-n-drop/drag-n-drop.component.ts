@@ -44,8 +44,8 @@ export class DragNDropComponent {
     folder = '';
     root = 'root';
     files: any[] = [];
-    listedFiles: any[];
-    validFileExtensions: any[] = ['.fastq', '.fq', '.bam', '.cram', '.xls', '.xlsx', '.tsv', '.csv', '.txt'];
+    validFileExtensions: any[] = ['.fastq', '.fq', '.bam', '.cram', '.xls', '.xlsx', '.xlsm', '.tsv', '.csv', '.txt', '.fastq.gz', '.fastq.bz2', '.fq.gz', '.fq.bz2'];
+    spreadhseetExtensions: any[] = ['.xls', '.xlsx', '.xlsm', '.csv', '.tsv', '.txt'];
     invalidFileNames: any;
     uploadedFiles = {};
     contactComponent = new cc();
@@ -54,77 +54,53 @@ export class DragNDropComponent {
     isValid = false;
     tbDisabled = false;
     fileWithInvalidExtension = false;
-    validationError = false;
+    spreadSheetPresent = true;
     uploadFinished = false;
     toLoad: boolean;
     emailSent = true;
     submitted = false;
-    readyToUpload = false;
 
     onSelect(event) {
-        this.fileWithInvalidExtension = false;
-        this.validationError = false;
-        this.readyToUpload = true;
-
         this.files.push(...event.addedFiles.map(file => {
             file.id = uuidv4();
-
-            const indexOfDot = file.name.lastIndexOf('.');
-            const extension = file.name.substring(indexOfDot);
-
-            // Check that file type is among whitelisted ones
-            if (!this.validFileExtensions.includes(extension)) {
-                this.fileWithInvalidExtension = true;
-                this.validationError = true;
-                this.readyToUpload = false;
-            }
-
             return file;
-
         }));
     }
 
     onRemove(event) {
-
         this.files.splice(this.files.indexOf(event), 1);
-
-        this.fileWithInvalidExtension = false;
-        this.validationError = false;
-        this.readyToUpload = true;
-        if( this.files.length > 0 ){
-            for (const file of this.files) {
-                const indexOfDot = file.name.lastIndexOf('.');
-                const extension = file.name.substring(indexOfDot);
-
-                console.log(file)
-                if (!this.validFileExtensions.includes(extension)) {
-                    this.fileWithInvalidExtension = true;
-                    this.validationError = true;
-                    this.readyToUpload = false;
-                }
-            }
-        }
-
-
-        if(this.files.length < 1 ) {
-            this.readyToUpload = false;
-        }
     }
 
     async onUpload() {
+        this.fileWithInvalidExtension = false;
         this.isValid = true;
         this.uploadFinished = false;
-        this.validationError = false;
+
+        let metadataSheetPresent = false;
+
+        for (const file of this.files) {
+            const indexOfDot = file.name.indexOf('.');
+            const extension = file.name.substring(indexOfDot);
+
+            if (!this.validFileExtensions.includes(extension)) {
+                this.fileWithInvalidExtension = true;
+                return;
+            }
+        }
 
         for (const file of this.files) {
             const indexOfDot = file.name.lastIndexOf('.');
             const extension = file.name.substring(indexOfDot);
 
-            if (!this.validFileExtensions.includes(extension)) {
-                this.fileWithInvalidExtension = true;
-                this.validationError = true;
-                return;
+            if (this.spreadhseetExtensions.includes(extension)) {
+                metadataSheetPresent = true;
             }
+        }
+
+        this.spreadSheetPresent = metadataSheetPresent;
+
+        if (!this.spreadSheetPresent) {
+            return;
         }
 
         for (const file of this.files) {
@@ -170,7 +146,6 @@ export class DragNDropComponent {
     async onLoading() {
         this.files = [];
         this.fileWithInvalidExtension = false;
-        this.readyToUpload = false;
 
         this.bucket.headObject({
             Bucket: this.bucketName,
@@ -230,8 +205,13 @@ export class DragNDropComponent {
                     if (fileKey.length > 1) {
                         fileKey = fileKey[1].split('.');
                         if (fileKey.length > 2) {
-                            filename = fileKey[0] + '.' + fileKey[1];
-                            fileExtension = fileKey[1];
+                            if (fileKey[2] === 'gz' || fileKey[2] === 'bz2') {
+                                filename = fileKey[0] + '.' + fileKey[1] + '.' + fileKey[2];
+                                fileExtension = fileKey[1] + '.' + fileKey[2];
+                            } else {
+                                filename = fileKey[0] + '.' + fileKey[1];
+                                fileExtension = fileKey[1];
+                            }
                         } else {
                             filename = fileKey[0];
                         }
