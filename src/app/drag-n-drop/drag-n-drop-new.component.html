@@ -54,13 +54,17 @@
                     </ngx-dropzone-preview>
                 </ngx-dropzone>
 
-                <p *ngIf="!fileWithInvalidExtension && spreadSheetPresent" class="vf-u-margin__top--md vf-u-margin__bottom--sm">Please don't close the browser or refresh once you pressed the "Upload files" button. It might take a while for the files to get uploaded. You will get a message/notification once the file upload is complete</p>
+                <p *ngIf="!fileWithInvalidExtension && spreadSheetPresent" class="vf-u-margin__top--md vf-u-margin__bottom--sm">
+                    Please don't close the browser or refresh once you pressed the "Upload files" button. It might take a while for the files to get uploaded.
+                    You will get a message/notification once the file upload is complete</p>
 
                 <div class="upload-area-button-row">
-                    <button (click)="folder && files.length && onUpload()" [disabled]="!folder || files.length == 0"
-                    class="vf-button ">
+                    <button (click)="folder && files.length && onUpload()" [disabled]="files.length == 0"
+                            class="vf-button " [class.vf-button--primary]="files.length == 0"
+                            [class.vf-button--tertiary]="files.length > 0">
                         Upload Files
                     </button>
+                    <!-- fileWithInvalidExtension -->
                 </div>
 
                 <p *ngIf="fileWithInvalidExtension" class="vf-u-margin__top--xxl vf-form__helper vf-form__helper--error vf-u-type__text-body--3">
