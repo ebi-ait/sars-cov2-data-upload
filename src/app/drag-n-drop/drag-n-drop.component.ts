@@ -43,8 +43,8 @@ export class DragNDropComponent {
     folder = '';
     root = 'root';
     files: any[] = [];
-    listedFiles: any[];
-    validFileExtensions: any[] = ['.fastq', '.fq', '.bam', '.cram', '.xls', '.xlsx', '.tsv', '.csv', '.txt'];
+    validFileExtensions: any[] = ['.fastq', '.fq', '.bam', '.cram', '.xls', '.xlsx', '.xlsm', '.tsv', '.csv', '.txt', '.fastq.gz', '.fastq.bz2', '.fq.gz', '.fq.bz2'];
+    spreadhseetExtensions: any[] = ['.xls', '.xlsx', '.xlsm', '.csv', '.tsv', '.txt'];
     invalidFileNames: any;
     uploadedFiles = {};
     contactComponent = new cc();
@@ -53,11 +53,12 @@ export class DragNDropComponent {
     isValid = false;
     tbDisabled = false;
     fileWithInvalidExtension = false;
-    validationError = false;
+    spreadSheetPresent = true;
     uploadFinished = false;
     toLoad: boolean;
     emailSent = true;
     submitted = false;
+    everythingIsDone = false;
 
     onSelect(event) {
         this.files.push(...event.addedFiles.map(file => {
@@ -71,20 +72,39 @@ export class DragNDropComponent {
     }
 
     async onUpload() {
+        this.fileWithInvalidExtension = false;
         this.isValid = true;
         this.uploadFinished = false;
-        this.validationError = false;
+
+        let metadataSheetPresent = false;
+
+        for (const file of this.files) {
+            const indexOfDot = file.name.indexOf('.');
+            const extension = file.name.substring(indexOfDot);
+
+            console.log('Extension is ' + extension);
+
+            if (!this.validFileExtensions.includes(extension)) {
+                this.fileWithInvalidExtension = true;
+                return;
+            }
+        }
 
         for (const file of this.files) {
             const indexOfDot = file.name.lastIndexOf('.');
             const extension = file.name.substring(indexOfDot);
 
-            if (!this.validFileExtensions.includes(extension)) {
-                this.fileWithInvalidExtension = true;
-                this.validationError = true;
-                return;
+            if (this.spreadhseetExtensions.includes(extension)) {
+                metadataSheetPresent = true;
             }
         }
+
+        this.spreadSheetPresent = metadataSheetPresent;
+
+        if (!this.spreadSheetPresent) {
+            return;
+        }
+
 
         for (const file of this.files) {
             this.fileWithInvalidExtension = false;
@@ -219,12 +239,18 @@ export class DragNDropComponent {
     async sendEmail() {
         const email = 'dipayan.gupta0@gmail.com';
         this.emailSent = await this.contactComponent.sendMessage(email, this.folder, this.notes);
-        console.log(this.emailSent);
         this.notes = '';
         this.submitted = true;
+        this.everythingIsDone = true;
     }
 
     getUploadedFiles(): any[] {
         return Object.values(this.uploadedFiles);
+    }
+
+    alertUser() {
+        if (!this.everythingIsDone) {
+            alert('Do you really want to leave');
+        }
     }
 }
