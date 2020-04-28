@@ -1,0 +1,118 @@
+// .cv19-app-nav-container {
+//   top: 0;
+//   grid-column: 1/-1;
+//   background-color: #fff;
+// }
+
+
+@media (max-width:520px) {
+
+  .cv19-app-nav-container  {
+    // background-color: #eee;
+    border-top: 1px solid #333;
+  }
+
+	.vf-navigation--main .vf-navigation__list {
+    flex: 0 0 calc(50% - 20px);
+    flex-wrap: wrap;
+    padding: 0;
+  }
+
+  .vf-navigation--main .vf-navigation__item {
+    display: block;
+    -ms-flex-preferred-size: auto;
+    flex-basis: auto;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    margin: 2px;
+    position: static;
+  }
+}
+
+.vf-navigation--main .vf-navigation__link {
+  color: #379dd8;
+  text-transform: capitalize;
+  font-weight:  600;
+  font-size:  1.4em;
+}
+
+.vf-navigation--main .vf-navigation__link:focus, .vf-navigation--main .vf-navigation__link:hover {
+  color: #0c7abf;
+}
+
+.vf-navigation--main .vf-navigation__link:visited {
+  // color: #2561a5;
+  // color: inherit;
+}
+
+// START: ALTERNATIVE WORKAROUND FOR MOBILE VIEW    //
+// @media (max-width:520px) {
+
+//   .cv19-app-nav {}
+
+// 	.vf-navigation--main .vf-navigation__list {
+//     display: block;
+//     flex-wrap: wrap;
+//     padding: 0;
+//   }
+
+//   .vf-navigation--main .vf-navigation__item {
+//     display: block;
+//     -ms-flex-preferred-size: auto;
+//     flex-basis: auto;
+//     -ms-flex-positive: 1;
+//     flex-grow: 1;
+//     margin: 2px;
+//     position: static;
+//   }
+// }
+// END: ALTERNATIVE WORKAROUND FOR MOBILE VIEW    //
+
+
+
+// .cv19-app-nav .vf-navigation--main .vf-navigation__list {
+//   padding-left: 0;
+// }
+
+
+// .cv19-app-nav .vf-navigation--main .vf-navigation__link {
+//   color: #007cd4;
+//   padding: .75rem 0;
+//   text-decoration: none;
+//   text-transform: capitalize;
+//   font-weight:  600;
+//   font-size:  1.4em;
+// }
+
+.cv19-app-nav .vf-navigation--main .vf-navigation__link.app-nav-active {
+  // color: #034b9e;
+}
+
+
+//  STICKY WORKAROUND
+// .cv19-app-nav {
+//   background-color: #fff;
+// }
+
+// .cv19-app-nav-sticky {
+//   background: #fff;
+//   box-shadow: 0 3px 12px 0 rgba(0,0,0,.08);
+//   position: sticky;
+//   position: -moz-sticky;
+//   position: -o-sticky;
+//   position: -ms-sticky;
+//   position: -webkit-sticky;
+//   top: 0;
+//   width: 100%;
+//   z-index: 2;
+// }
+
+// .cv19-app-nav-sticky-safari {
+//   background: #fff;
+//   box-shadow: 0 3px 12px 0 rgba(0,0,0,.08);
+//   position: fixed;
+//   top: 0;
+//   width: 100%;
+//   z-index: 1;
+// }
+

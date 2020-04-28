@@ -18,11 +18,18 @@ import {AppRoutingModule} from './app-routing.module';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatCardModule} from '@angular/material/card';
 
+import {HeaderComponent} from './shared/header/header.component';
+import {HeroComponent} from './shared/hero/hero.component';
+import {FooterComponent} from './shared/footer/footer.component';
+
 @NgModule({
     declarations: [
         AppComponent,
         DragNDropComponent,
         ContactComponent,
+        HeaderComponent,
+        HeroComponent,
+        FooterComponent,
     ],
     imports: [
         BrowserModule,

@@ -14,7 +14,8 @@ export interface UploadedRecords {
 
 @Component({
     selector: 'app-drag-n-drop',
-    templateUrl: './drag-n-drop.component.html',
+    // templateUrl: './drag-n-drop.component.html',
+    templateUrl: './drag-n-drop-new.component.html',
     styleUrls: ['./drag-n-drop.component.css']
 })
 
@@ -105,7 +106,6 @@ export class DragNDropComponent {
             return;
         }
 
-
         for (const file of this.files) {
             this.fileWithInvalidExtension = false;
             file.id = uuidv4();
@@ -189,6 +189,7 @@ export class DragNDropComponent {
     }
 
     async loadList() {
+
         this.toLoad = true;
 
         this.bucket.listObjects({
@@ -207,8 +208,13 @@ export class DragNDropComponent {
                     if (fileKey.length > 1) {
                         fileKey = fileKey[1].split('.');
                         if (fileKey.length > 2) {
-                            filename = fileKey[0] + '.' + fileKey[1];
-                            fileExtension = fileKey[1];
+                            if (fileKey[2] === 'gz' || fileKey[2] === 'bz2') {
+                                filename = fileKey[0] + '.' + fileKey[1] + '.' + fileKey[2];
+                                fileExtension = fileKey[1] + '.' + fileKey[2];
+                            } else {
+                                filename = fileKey[0] + '.' + fileKey[1];
+                                fileExtension = fileKey[1];
+                            }
                         } else {
                             filename = fileKey[0];
                         }
