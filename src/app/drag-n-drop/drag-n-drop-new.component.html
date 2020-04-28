@@ -11,16 +11,15 @@
                 <label *ngIf="!isValid"  for="text" class="vf-form__label">Enter your secure key</label>
                 <label *ngIf="isValid"  for="text" class="vf-form__label">Your secure key</label>
 
-                <input [(ngModel)]="folder" required
+                <input [(ngModel)]="folder" [attr.disabled]="tbDisabled ? '' : null" required
                 type="text"  class="vf-form__input" placeholder="format: xxxxx-xxx-xxxx-xxxxx">
 
-                <!-- Helper + Error -->
-                <!-- <p class="vf-form__helper vf-form__helper--error">You have done something wrong.</p>
-                <p class="vf-form__helper">Form helper text</p> -->
                 <p *ngIf="!isValid" class="vf-form__helper">
                     <button color="primary" (click)="onLoading()" [disabled]="!folder" class="vf-button vf-button--primary">Login</button>
-                    <!-- <button aria-label="Clear" (click)="onReset()" class="vf-button vf-button--primary">Login</button> -->
-                    <!-- <button class="vf-button vf-button--tertiary">Reset</button> -->
+                </p>
+
+                <p *ngIf="isValid" class="vf-form__helper">
+                    <button color="primary" (click)="onReset()" [disabled]="!folder" class="vf-button vf-button--primary">Reset</button>
                 </p>
 
                 <p class="vf-form__helper vf-form__helper--error vf-u-type__text-body--3" *ngIf="!toShow">
@@ -35,7 +34,6 @@
     </section>
 </div>
 
-
 <div *ngIf="isValid"  class="vf-body vf-u-margin__top--xxl">
     <section class="vf-summary-container | embl-grid">
         <div [class.vf-u-text-color--grey]="getUploadedFiles().length && isValid"  class="vf-section-header">
@@ -47,7 +45,7 @@
                 <label  for="upload" class="vf-form__label">Select files</label>
                 <ngx-dropzone (change)="onSelect($event)" class="upload-area" [expandable]="true">
                     <ngx-dropzone-label>Drag n' drop some files here, or click to select files. <br/>
-                        (Accepted formats are: .fastq, .fastq.gz, .fastq.bz2, .fq, .fq.gz, .fq.bz2, .bam, .cram, .xls, .xlsx, .tsv, .csv, .txt.)
+                        (Accepted formats are: .fastq.gz, .fastq.bz2, .fq.gz, .fq.bz2, .bam, .cram, .xls, .xlsx, .tsv, .csv, .txt.)
                     </ngx-dropzone-label>
                     <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
                         <ngx-dropzone-label>{{ f.name }} - {{ f.size }} bytes</ngx-dropzone-label>
@@ -69,7 +67,7 @@
 
                 <p *ngIf="fileWithInvalidExtension" class="vf-u-margin__top--xxl vf-form__helper vf-form__helper--error vf-u-type__text-body--3">
                     You have a file with an extension that is not accepted, please remove the file and re-upload.
-                    <br/>Accepted formats are: .fastq, .fastq.gz, .fastq.bz2, .fq, .fq.gz, .fq.bz2, .bam, .cram, .xls, .xlsx, .tsv, .csv, .txt.
+                    <br/>Accepted formats are: .fastq.gz, .fastq.bz2, .fq.gz, .fq.bz2, .bam, .cram, .xls, .xlsx, .tsv, .csv, .txt.
                     <br/>Please delete the file by clicking the cross in the top right corner of the file.
                     <br/> To submit files in an unsupported format please email our help-desk at
                     <a href="mailto:virus-dataflow@ebi.ac.uk">virus-dataflow@ebi.ac.uk</a>.
@@ -87,7 +85,6 @@
         </section>
     </section>
 </div>
-
 
 <div *ngIf="getUploadedFiles().length && isValid" class="vf-body vf-u-margin__top--xxl">
     <section class="vf-summary-container | embl-grid">
@@ -111,8 +108,6 @@
                         </td>
                     </tr>
                 </table>
-
-
 
                 <div *ngIf="getUploadedFiles().length && uploadFinished" class="vf-u-margin__top--xxl">
                     <label class="vf-form__label">Add your notes (max 200 characters **)</label>
