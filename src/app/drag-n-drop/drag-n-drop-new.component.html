@@ -60,8 +60,8 @@
 
                 <div class="upload-area-button-row">
                     <button (click)="folder && files.length && onUpload()" [disabled]="files.length == 0"
-                            class="vf-button " [class.vf-button--primary]="files.length == 0"
-                            [class.vf-button--tertiary]="files.length > 0">
+                            class="vf-button "[class.vf-button--warn]="files.length == 0"
+                            [class.vf-button--primary]="files.length > 0">
                         Upload Files
                     </button>
                     <!-- fileWithInvalidExtension -->
