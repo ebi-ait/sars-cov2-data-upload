@@ -60,9 +60,13 @@
                     <br/><br/><br/><br/>
                     <h4 *ngIf="fileWithInvalidExtension" class="problem">You have a file with an extension that is not accepted, please
                         remove the file and re-upload.
-                        <br/>Accepted formats are: .fastq, .fq, .bam, .cram, .xls, .xlsx, .tsv, .csv, .txt.
+                        <br/>Accepted formats are: .fastq, .fastq.gz, .fastq.bz2, .fq, .fq.gz, .fq.bz2, .bam, .cram, .xls, .xlsx, .tsv, .csv, .txt.
                         <br/>Please delete the file by clicking the cross in the top right corner of the file.
                         <br/> To submit files in an unsupported format please email our help-desk at
+                        <a href="mailto:virus-dataflow@ebi.ac.uk">virus-dataflow@ebi.ac.uk</a>.</h4>
+                    <h4 *ngIf="!fileWithInvalidExtension && !spreadSheetPresent" class="problem">You have not added the metadata file for your submission.
+                        <br/> The metadata file helps us to know details of the data files you are submitting.
+                        <br/> To know more please email our help-desk at
                         <a href="mailto:virus-dataflow@ebi.ac.uk">virus-dataflow@ebi.ac.uk</a>.</h4>
                 </div>
 
@@ -116,6 +120,8 @@
 
             <div *ngIf="isValid" class="uploaded-files-div">
                 <h3>Secure area contents</h3>
+                <hr>
+                <br/>
                 <mat-table [dataSource]="uploadedFileList" class="mat-elevation-z8">
                     <ng-container matColumnDef="name">
                         <th mat-header-cell *matHeaderCellDef> Name</th>

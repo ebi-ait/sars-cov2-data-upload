@@ -59,6 +59,7 @@ export class DragNDropComponent {
     toLoad: boolean;
     emailSent = true;
     submitted = false;
+    everythingIsDone = false;
 
     onSelect(event) {
         this.files.push(...event.addedFiles.map(file => {
@@ -81,6 +82,8 @@ export class DragNDropComponent {
         for (const file of this.files) {
             const indexOfDot = file.name.indexOf('.');
             const extension = file.name.substring(indexOfDot);
+
+            console.log('Extension is ' + extension);
 
             if (!this.validFileExtensions.includes(extension)) {
                 this.fileWithInvalidExtension = true;
@@ -242,12 +245,18 @@ export class DragNDropComponent {
     async sendEmail() {
         const email = 'dipayan.gupta0@gmail.com';
         this.emailSent = await this.contactComponent.sendMessage(email, this.folder, this.notes);
-        console.log(this.emailSent);
         this.notes = '';
         this.submitted = true;
+        this.everythingIsDone = true;
     }
 
     getUploadedFiles(): any[] {
         return Object.values(this.uploadedFiles);
+    }
+
+    alertUser() {
+        if (!this.everythingIsDone) {
+            alert('Do you really want to leave');
+        }
     }
 }
