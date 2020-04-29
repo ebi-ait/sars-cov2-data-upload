@@ -1,9 +1,8 @@
 import {Component, ViewChild} from '@angular/core';
 import * as S3 from 'aws-sdk/clients/s3';
-import {v4 as uuidv4} from 'uuid';
 import {ContactComponent as cc} from '../email/contact.component';
-import {environment as env} from '../../environments/environment';
 import {MatTable} from '@angular/material/table';
+import {Md5} from 'ts-md5/dist/md5';
 
 export interface UploadedRecords {
     name: string;
@@ -14,7 +13,6 @@ export interface UploadedRecords {
 
 @Component({
     selector: 'app-drag-n-drop',
-    // templateUrl: './drag-n-drop.component.html',
     templateUrl: './drag-n-drop-new.component.html',
     styleUrls: ['./drag-n-drop.component.css']
 })
@@ -60,10 +58,10 @@ export class DragNDropComponent {
     emailSent = true;
     submitted = false;
     everythingIsDone = false;
+    consent: false;
 
     onSelect(event) {
         this.files.push(...event.addedFiles.map(file => {
-            file.id = uuidv4();
             return file;
         }));
     }
@@ -73,6 +71,7 @@ export class DragNDropComponent {
     }
 
     async onUpload() {
+        this.uploadedFileList = [];
         this.fileWithInvalidExtension = false;
         this.isValid = true;
         this.uploadFinished = false;
@@ -108,7 +107,7 @@ export class DragNDropComponent {
 
         for (const file of this.files) {
             this.fileWithInvalidExtension = false;
-            file.id = uuidv4();
+            file.id = new Md5().appendStr(String(new Date().getTime())).end();
 
             const params = {
                 Bucket: this.bucketName,
@@ -118,7 +117,7 @@ export class DragNDropComponent {
                 ContentType: file.type
             };
 
-            this.bucket.upload(params).on('httpUploadProgress', evt => {
+            await this.bucket.upload(params).on('httpUploadProgress', evt => {
                 // tslint:disable-next-line:triple-equals
                 this.files = this.files.filter(f => file.id != f.id);
                 file.loaded = evt.loaded;
@@ -130,6 +129,8 @@ export class DragNDropComponent {
                 }
 
                 this.uploadedFiles[file.id] = file;
+                console.log('Loading latest');
+                this.loadList();
             }).send((err, data) => {
                 if (err) {
                     alert(err);
@@ -149,6 +150,7 @@ export class DragNDropComponent {
     async onLoading() {
         this.files = [];
         this.fileWithInvalidExtension = false;
+        this.uploadedFileList = [];
 
         this.bucket.headObject({
             Bucket: this.bucketName,
@@ -156,7 +158,7 @@ export class DragNDropComponent {
         })
             .promise()
             .then(
-                () => {
+                (res: any) => {
                     this.isValid = true;
                     this.toShow = true;
                     this.tbDisabled = true;
@@ -189,7 +191,6 @@ export class DragNDropComponent {
     }
 
     async loadList() {
-
         this.toLoad = true;
 
         this.bucket.listObjects({
@@ -240,6 +241,8 @@ export class DragNDropComponent {
         this.folder = '';
         this.tbDisabled = false;
         this.isValid = false;
+        this.uploadedFileList = [];
+        this.uploadedFiles = [];
     }
 
     async sendEmail() {
@@ -258,5 +261,9 @@ export class DragNDropComponent {
         if (!this.everythingIsDone) {
             alert('Do you really want to leave');
         }
+    }
+
+    delay(ms: number) {
+        return new Promise(resolve => setTimeout(resolve, ms));
     }
 }

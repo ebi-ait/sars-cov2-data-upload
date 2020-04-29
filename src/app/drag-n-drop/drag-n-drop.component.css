@@ -145,3 +145,8 @@
 .problem {
     border: 1px dashed red;
 }
+
+input[type='checkbox']:checked {
+    background: #abd;
+    border-color: #193f90;
+}

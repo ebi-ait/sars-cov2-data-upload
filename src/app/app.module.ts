@@ -3,10 +3,12 @@ import {NgModule} from '@angular/core';
 import {NgxDropzoneModule} from 'ngx-dropzone';
 import {ProgressBarModule} from 'angular-progress-bar';
 import {FormsModule} from '@angular/forms';
+import {RouterModule, Routes} from '@angular/router';
 
 import {AppComponent} from './app.component';
 import {DragNDropComponent} from './drag-n-drop/drag-n-drop.component';
 import {ContactComponent} from './email/contact.component';
+import {DocumentationComponent} from './documentation/documentation.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
@@ -22,11 +24,18 @@ import {HeaderComponent} from './shared/header/header.component';
 import {HeroComponent} from './shared/hero/hero.component';
 import {FooterComponent} from './shared/footer/footer.component';
 
+const appRoutes: Routes = [
+    {path: 'app-documentation', component: DocumentationComponent},
+    {path: '', component: DragNDropComponent},
+    {path: 'app-drag-n-drop', component: DragNDropComponent}
+]
+
 @NgModule({
     declarations: [
         AppComponent,
         DragNDropComponent,
         ContactComponent,
+        DocumentationComponent,
         HeaderComponent,
         HeroComponent,
         FooterComponent,
@@ -45,7 +54,8 @@ import {FooterComponent} from './shared/footer/footer.component';
         MatTableModule,
         AppRoutingModule,
         MatProgressBarModule,
-        MatCardModule
+        MatCardModule,
+        RouterModule.forRoot(appRoutes)
     ],
     providers: [],
     bootstrap: [AppComponent]

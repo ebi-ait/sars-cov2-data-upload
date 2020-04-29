@@ -14,21 +14,22 @@
                 <input [(ngModel)]="folder" [attr.disabled]="tbDisabled ? '' : null" required
                 type="text"  class="vf-form__input" placeholder="format: xxxxx-xxx-xxxx-xxxxx">
 
-                <p *ngIf="!isValid" class="vf-form__helper">
-                    <button color="primary" (click)="onLoading()" [disabled]="!folder" class="vf-button vf-button--primary">Login</button>
-                </p>
-
-                <p *ngIf="isValid" class="vf-form__helper">
-                    <button color="primary" (click)="onReset()" [disabled]="!folder" class="vf-button vf-button--primary">Reset</button>
-                </p>
+                <div class="upload-area-button-row">
+                    <p *ngIf="!isValid" class="vf-form__helper">
+                        <button (click)="onLoading()" class="vf-button "[class.vf-button--warn]="!folder"
+                                [class.vf-button--primary]="folder">
+                            Login
+                        </button>
+                    </p>
+                    <p *ngIf="isValid" class="vf-form__helper">
+                        <button color="primary" (click)="onReset()" [disabled]="!folder" class="vf-button vf-button--tertiary">Reset</button>
+                    </p>
+                </div>
 
                 <p class="vf-form__helper vf-form__helper--error vf-u-type__text-body--3" *ngIf="!toShow">
                     The secure key entered by you is not valid, please enter a valid secure key. <br/>
                     Please contact <a href="mailto:virus-dataflow@ebi.ac.uk">virus-dataflow@ebi.ac.uk</a> if you need a new key or for any problems with your existing key
                 </p>
-            </div>
-            <div class="vf-grid__col--span-1">
-            &nbsp;
             </div>
         </section>
     </section>
@@ -56,13 +57,18 @@
                     Please don't close the browser or refresh once you pressed the "Upload files" button. It might take a while for the files to get uploaded.
                     You will get a message/notification once the file upload is complete</p>
 
-                <div class="upload-area-button-row">
-                    <button (click)="folder && files.length && onUpload()" [disabled]="files.length == 0"
-                            class="vf-button "[class.vf-button--warn]="files.length == 0"
+                <p class="vf-u-margin__top--md vf-u-margin__bottom--sm">
+                    <input type="checkbox" [(ngModel)]="consent"/> The Data uploader service requires limited processing of personal data in order to function.
+                    Please check this box to confirm that you are consenting to this, and that you have obtained
+                    the consent of any other identified individuals in your submission, as outlined in our
+                    Submission Privacy Notice </p>
+
+                <div class="upload-area-button-row" >
+                    <button (click)="folder && files.length && onUpload()" [disabled]="files.length == 0 && consent"
+                            class="vf-button "[class.vf-button--warn]="files.length == 0 && !consent"
                             [class.vf-button--primary]="files.length > 0">
                         Upload Files
                     </button>
-                    <!-- fileWithInvalidExtension -->
                 </div>
 
                 <p *ngIf="fileWithInvalidExtension" class="vf-u-margin__top--xxl vf-form__helper vf-form__helper--error vf-u-type__text-body--3">

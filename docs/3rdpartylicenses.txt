@@ -88,6 +88,9 @@ THE SOFTWARE.
 @angular/platform-browser
 MIT
 
+@angular/router
+MIT
+
 angular-progress-bar
 MIT
 MIT License
@@ -753,6 +756,9 @@ Apache-2.0
  limitations under the License.
  
 
+
+ts-md5
+MIT
 
 tslib
 Apache-2.0
