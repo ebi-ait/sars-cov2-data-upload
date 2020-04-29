@@ -26,8 +26,8 @@ import {FooterComponent} from './shared/footer/footer.component';
 
 const appRoutes: Routes = [
     {path: 'app-documentation', component: DocumentationComponent},
-    {path: '', component: DragNDropComponent},
-    {path: 'app-drag-n-drop', component: DragNDropComponent}
+    {path: 'app-drag-n-drop', component: DragNDropComponent},
+    {path: '', component: DragNDropComponent}
 ]
 
 @NgModule({
