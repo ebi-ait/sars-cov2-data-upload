@@ -260,7 +260,7 @@ export class DragNDropComponent {
     }
 
     async sendEmail() {
-        const email = 'dgupta@ebi.ac.uk';
+        const email = 'virus-dataflow@ebi.ac.uk';
         this.emailSent = await this.contactComponent.sendMessage(email, this.folder, this.notes);
         this.notes = '';
         this.submitted = true;
