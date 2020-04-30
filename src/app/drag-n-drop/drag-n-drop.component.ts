@@ -70,7 +70,6 @@ export class DragNDropComponent {
     }
 
     async onUpload() {
-        this.uploadedFileList = [];
         this.fileWithInvalidExtension = false;
         this.isValid = true;
         this.uploadFinished = false;
@@ -143,8 +142,6 @@ export class DragNDropComponent {
                 }
 
                 this.uploadedFiles[file.id] = file;
-                console.log('Loading latest');
-                this.loadList();
             }).send((err, data) => {
                 if (err) {
                     alert(err);
@@ -260,11 +257,13 @@ export class DragNDropComponent {
     }
 
     async sendEmail() {
+        this.uploadedFileList = [];
         const email = 'virus-dataflow@ebi.ac.uk';
         this.emailSent = await this.contactComponent.sendMessage(email, this.folder, this.notes);
         this.notes = '';
         this.submitted = true;
         this.everythingIsDone = true;
+        this.loadList();
     }
 
     getUploadedFiles(): any[] {
