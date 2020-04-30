@@ -29,7 +29,7 @@ const appRoutes: Routes = [
     {path: 'app-drag-n-drop', component: DragNDropComponent},
     {path: '', component: DragNDropComponent},
     {path: '*', component: DragNDropComponent}
-]
+];
 
 @NgModule({
     declarations: [

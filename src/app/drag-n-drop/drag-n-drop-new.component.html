@@ -59,14 +59,14 @@
                     You will get a message/notification once the file upload is complete</p>
 
                 <p class="vf-u-margin__top--md vf-u-margin__bottom--sm">
-                    <input type="checkbox" [(ngModel)]="consent"/> The Data uploader service requires limited processing of personal data in order to function.
+                    <input type="checkbox" name="consent" [(ngModel)]="consent"/> The Data uploader service requires limited processing of personal data in order to function.
                     Please check this box to confirm that you are consenting to this, and that you have obtained
                     the consent of any other identified individuals in your submission, as outlined in our
                     Submission Privacy Notice </p>
 
                 <div class="upload-area-button-row" >
-                    <button (click)="folder && files.length && onUpload()" [disabled]="files.length == 0 && consent"
-                            class="vf-button "[class.vf-button--warn]="files.length == 0 && !consent"
+                    <button (click)="folder && files.length && onUpload()" [disabled]="files.length == 0"
+                            class="vf-button "[class.vf-button--warn]="files.length == 0"
                             [class.vf-button--primary]="files.length > 0">
                         Upload Files
                     </button>
@@ -83,6 +83,11 @@
                     You have not added the metadata file for your submission.
                     <br/> The metadata file helps us to know details of the data files you are submitting.
                     <br/> To know more please email our help-desk at
+                    <a href="mailto:virus-dataflow@ebi.ac.uk">virus-dataflow@ebi.ac.uk</a>.
+                </p>
+                <p *ngIf="!fileWithInvalidExtension && spreadSheetPresent && !consentHandler" class="vf-u-margin__top--xxl vf-form__helper vf-form__helper--error vf-u-type__text-body--3">
+                    Please provide your consent by checking the box
+                    <br/> In case of queries please email our help-desk at
                     <a href="mailto:virus-dataflow@ebi.ac.uk">virus-dataflow@ebi.ac.uk</a>.
                 </p>
             </div>

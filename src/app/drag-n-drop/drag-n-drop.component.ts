@@ -59,6 +59,7 @@ export class DragNDropComponent {
     submitted = false;
     everythingIsDone = false;
     consent: false;
+    consentHandler = true;
 
     onSelect(event) {
         this.files.push(...event.addedFiles.map(file => {
@@ -75,6 +76,8 @@ export class DragNDropComponent {
         this.fileWithInvalidExtension = false;
         this.isValid = true;
         this.uploadFinished = false;
+        this.spreadSheetPresent = true;
+        this.consentHandler = true;
 
         let metadataSheetPresent = false;
 
@@ -102,6 +105,12 @@ export class DragNDropComponent {
         this.spreadSheetPresent = metadataSheetPresent;
 
         if (!this.spreadSheetPresent) {
+            return;
+        }
+
+        this.consentHandler = this.consent;
+
+        if (!this.consentHandler) {
             return;
         }
 
