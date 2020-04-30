@@ -3,6 +3,7 @@ import * as S3 from 'aws-sdk/clients/s3';
 import {ContactComponent as cc} from '../email/contact.component';
 import {MatTable} from '@angular/material/table';
 import {Md5} from 'ts-md5/dist/md5';
+import {environment as env} from '../../environments/environment';
 
 export interface UploadedRecords {
     name: string;
@@ -18,11 +19,8 @@ export interface UploadedRecords {
 })
 
 export class DragNDropComponent {
-    accessKeyP1 = 'AKIA4WBQC';
-    accessKeyP2 = 'FL3FG3SDHOK';
-
-    secKeyP1 = 'lagSC4LRPUNKrItluf';
-    secKeyP2 = '2ckAsu1XUqHTLbJoqLp15Y';
+    accessKey = env.ACCESSKEYBUCKET;
+    secKey = env.SECREYKEYBUCKET;
 
     @ViewChild(MatTable) table: MatTable<any>;
     displayedColumns: string[] = ['name', 'format', 'size', 'date'];
@@ -32,8 +30,8 @@ export class DragNDropComponent {
         apiVersion: '2006-03-01',
         region: 'us-east-1',
         credentials: {
-            accessKeyId: this.accessKeyP1 + this.accessKeyP2,
-            secretAccessKey: this.secKeyP1 + this.secKeyP2
+            accessKeyId: this.accessKey,
+            secretAccessKey: this.secKey
         }
     });
 
@@ -85,8 +83,6 @@ export class DragNDropComponent {
             const indexOfDot = file.name.indexOf('.');
             const extension = file.name.substring(indexOfDot);
 
-            console.log('Extension is ' + extension);
-
             if (!this.validFileExtensions.includes(extension)) {
                 this.fileWithInvalidExtension = true;
                 return;
@@ -116,7 +112,16 @@ export class DragNDropComponent {
 
         for (const file of this.files) {
             this.fileWithInvalidExtension = false;
-            file.id = new Md5().appendStr(String(new Date().getTime())).end();
+
+            const indexOfDot = file.name.indexOf('.');
+            const extension = file.name.substring(indexOfDot);
+
+            if (this.spreadhseetExtensions.includes(extension)) {
+                const now = new Date();
+                file.id = now.toISOString();
+            } else {
+                file.id = new Md5().appendStr(String(new Date().getTime())).end();
+            }
 
             const params = {
                 Bucket: this.bucketName,
@@ -255,7 +260,7 @@ export class DragNDropComponent {
     }
 
     async sendEmail() {
-        const email = 'dipayan.gupta0@gmail.com';
+        const email = 'dgupta@ebi.ac.uk';
         this.emailSent = await this.contactComponent.sendMessage(email, this.folder, this.notes);
         this.notes = '';
         this.submitted = true;
