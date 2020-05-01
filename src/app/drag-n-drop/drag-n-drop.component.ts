@@ -132,7 +132,7 @@ export class DragNDropComponent {
                 ContentType: file.type
             };
 
-            const options = {partSize: 20 * 1024 * 1024, queueSize: 10};
+            const options = {partSize: 50 * 1024 * 1024, queueSize: 10};
 
             this.bucket.upload(params, options).on('httpUploadProgress', evt => {
                 // tslint:disable-next-line:triple-equals
