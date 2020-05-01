@@ -12,7 +12,7 @@
                 <label *ngIf="isValid"  for="text" class="vf-form__label">Your secure key</label>
 
                 <input [(ngModel)]="folder" [attr.disabled]="tbDisabled ? '' : null" required
-                type="text"  class="vf-form__input" placeholder="format: xxxxx-xxx-xxxx-xxxxx">
+                       type="text"  class="vf-form__input" placeholder="format: xxxxx-xxx-xxxx-xxxxx">
 
                 <div class="upload-area-button-row">
                     <p *ngIf="!isValid" class="vf-form__helper">
@@ -39,7 +39,7 @@
 <div *ngIf="isValid"  class="vf-body vf-u-margin__top--xxl">
     <section class="vf-summary-container | embl-grid">
         <div [class.vf-u-text-color--grey]="getUploadedFiles().length && isValid"  class="vf-section-header">
-                <h2 class="vf-section-header__heading">Upload files</h2><p>Step 2 of 3</p>
+            <h2 class="vf-section-header__heading">Upload files</h2><p>Step 2 of 3</p>
         </div>
 
         <section class="vf-grid vf-grid__col-4">
@@ -93,7 +93,7 @@
                 </p>
             </div>
             <div class="vf-grid__col--span-1">
-            &nbsp;
+                &nbsp;
             </div>
         </section>
     </section>
@@ -102,7 +102,7 @@
 <div *ngIf="getUploadedFiles().length && isValid" class="vf-body vf-u-margin__top--xxl">
     <section class="vf-summary-container | embl-grid">
         <div class="vf-section-header">
-                <h2 class="vf-section-header__heading">Submit files</h2><p>Step 3 of 3</p>
+            <h2 class="vf-section-header__heading">Submit files</h2><p>Step 3 of 3</p>
         </div>
 
         <section class="vf-grid vf-grid__col-4">
@@ -115,7 +115,7 @@
                             <!--<progress-bar [progress]="file.percentage"
                                             [color-degraded]="{'0': '#007bff', '100': '#28a745'}"></progress-bar>-->
                             <mat-progress-bar mode="determinate" [value]="file.percentage"
-                                                class="file-progress"></mat-progress-bar>
+                                              class="file-progress"></mat-progress-bar>
                             <b *ngIf="file.percentage < 100">File is being uploaded, please don't refresh or close
                                 your browser</b>
                         </td>
@@ -126,7 +126,8 @@
                     <label class="vf-form__label">Add your notes (max 200 characters **)</label>
                     <input type="text" [(ngModel)]="notes" matInput maxlength="200" class="vf-form__input">
 
-                    <p class="vf-u-margin__top--md vf-u-margin__bottom--sm">Press Submit to get your submission processed and a notification sent to <a _ngcontent-vxk-c68="" href="mailto:virus-dataflow@ebi.ac.uk">virus-dataflow@ebi.ac.uk</a></p>
+                    <p class="vf-u-margin__top--md vf-u-margin__bottom--sm">Press Submit to get your submission processed and a notification sent to
+                        <a _ngcontent-vxk-c68="" href="mailto:virus-dataflow@ebi.ac.uk">virus-dataflow@ebi.ac.uk</a></p>
 
                     <button (click)="sendEmail()" [disabled]="!folder" class="upload-area-button-row vf-button vf-button--primary" mat-raised-button>
                         Submit Files
@@ -136,7 +137,7 @@
                 </div>
             </div>
             <div class="vf-grid__col--span-1">
-            &nbsp;
+                &nbsp;
             </div>
         </section>
     </section>
@@ -182,12 +183,8 @@
                 </div>
             </div>
             <div class="vf-grid__col--span-1">
-            &nbsp;
+                &nbsp;
             </div>
         </section>
     </section>
 </div>
-
-
-
-
