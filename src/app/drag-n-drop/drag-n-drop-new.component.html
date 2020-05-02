@@ -148,6 +148,10 @@
 
                     <button (click)="sendEmail()" [disabled]="!folder"
                             class="upload-area-button-row vf-button vf-button--primary" mat-raised-button>
+                    <p class="vf-u-margin__top--md vf-u-margin__bottom--sm">Press Submit to get your submission processed and a notification sent to
+                        <a _ngcontent-vxk-c68="" href="mailto:virus-dataflow@ebi.ac.uk">virus-dataflow@ebi.ac.uk</a></p>
+
+                    <button (click)="sendEmail()" [disabled]="!folder" class="upload-area-button-row vf-button vf-button--primary" mat-raised-button>
                         Submit Files
                     </button>
 
