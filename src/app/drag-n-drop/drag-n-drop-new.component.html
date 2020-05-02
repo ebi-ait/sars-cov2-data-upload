@@ -91,6 +91,7 @@
                     <br/> To submit files in an unsupported format please email our help-desk at
                     <a href="mailto:virus-dataflow@ebi.ac.uk">virus-dataflow@ebi.ac.uk</a>.
                 </p>
+
                 <p *ngIf="!fileWithInvalidExtension && !spreadSheetPresent"
                    class="vf-u-margin__top--xxl vf-form__helper vf-form__helper--error vf-u-type__text-body--3">
                     You have not added the metadata file for your submission.
@@ -99,6 +100,7 @@
                     <br/> To know more please email our help-desk at
                     <a href="mailto:virus-dataflow@ebi.ac.uk">virus-dataflow@ebi.ac.uk</a>.
                 </p>
+                
                 <p *ngIf="!fileWithInvalidExtension && spreadSheetPresent && !consentHandler"
                    class="vf-u-margin__top--xxl vf-form__helper vf-form__helper--error vf-u-type__text-body--3">
                     Please provide your consent by checking the box
@@ -140,7 +142,7 @@
                 <div *ngIf="getUploadedFiles().length && uploadFinished" class="vf-u-margin__top--xxl">
                     <label class="vf-form__label">Add your notes (max 200 characters **)</label>
                     <input type="text" [(ngModel)]="notes" matInput maxlength="200" class="vf-form__input">
-                   
+
                     <p class="vf-u-margin__top--md vf-u-margin__bottom--sm">Press Submit to get your submission
                         processed and a notification sent to
                         <a _ngcontent-vxk-c68="" href="mailto:virus-dataflow@ebi.ac.uk">virus-dataflow@ebi.ac.uk</a></p>
