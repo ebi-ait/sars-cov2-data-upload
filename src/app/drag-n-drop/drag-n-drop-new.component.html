@@ -73,6 +73,7 @@
                     the consent of any other identified individuals in your submission, as outlined in our
                     <a href="https://www.ebi.ac.uk/data-protection/privacy-notice/covid-19-data-portal-uploader">Submission
                         Privacy Notice </a></p>
+
                 <div class="upload-area-button-row">
                     <button (click)="folder && files.length && onUpload()" [disabled]="files.length == 0"
                             class="vf-button " [class.vf-button--warn]="files.length == 0"
@@ -139,11 +140,12 @@
                 <div *ngIf="getUploadedFiles().length && uploadFinished" class="vf-u-margin__top--xxl">
                     <label class="vf-form__label">Add your notes (max 200 characters **)</label>
                     <input type="text" [(ngModel)]="notes" matInput maxlength="200" class="vf-form__input">
-                    <p class="vf-u-margin__top--md vf-u-margin__bottom--sm">Press Submit to get your submission processed and a notification sent to
+                    <p class="vf-u-margin__top--md vf-u-margin__bottom--sm">Press Submit to get your submission
+                        processed and a notification sent to
                         <a _ngcontent-vxk-c68="" href="mailto:virus-dataflow@ebi.ac.uk">virus-dataflow@ebi.ac.uk</a></p>
 
                     <button (click)="sendEmail()" [disabled]="!folder"
-                            class="upload-area-button-row vf-button vf-button--primary" mat-raised-button>
+                            class="upload-area-button-row vf-button vf-button--primary" mat-raised-button></button>
                     <p class="vf-u-margin__top--md vf-u-margin__bottom--sm">Press Submit to get your submission
                         processed and a notification sent to
                         <a _ngcontent-vxk-c68="" href="mailto:virus-dataflow@ebi.ac.uk">virus-dataflow@ebi.ac.uk</a></p>
