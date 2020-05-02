@@ -45,8 +45,6 @@
         <div [class.vf-u-text-color--grey]="getUploadedFiles().length && isValid" class="vf-section-header">
             <h2 class="vf-section-header__heading">Upload files</h2>
             <p>Step 2 of 3</p>
-        <div [class.vf-u-text-color--grey]="getUploadedFiles().length && isValid"  class="vf-section-header">
-            <h2 class="vf-section-header__heading">Upload files</h2><p>Step 2 of 3</p>
         </div>
 
         <section class="vf-grid vf-grid__col-4">
@@ -74,9 +72,7 @@
                     Please check this box to confirm that you are consenting to this, and that you have obtained
                     the consent of any other identified individuals in your submission, as outlined in our
                     <a href="https://www.ebi.ac.uk/data-protection/privacy-notice/covid-19-data-portal-uploader">Submission
-                        Privacy Notice </a>
-                </p>
-
+                        Privacy Notice </a></p>
                 <div class="upload-area-button-row">
                     <button (click)="folder && files.length && onUpload()" [disabled]="files.length == 0"
                             class="vf-button " [class.vf-button--warn]="files.length == 0"
@@ -148,10 +144,12 @@
 
                     <button (click)="sendEmail()" [disabled]="!folder"
                             class="upload-area-button-row vf-button vf-button--primary" mat-raised-button>
-                    <p class="vf-u-margin__top--md vf-u-margin__bottom--sm">Press Submit to get your submission processed and a notification sent to
+                    <p class="vf-u-margin__top--md vf-u-margin__bottom--sm">Press Submit to get your submission
+                        processed and a notification sent to
                         <a _ngcontent-vxk-c68="" href="mailto:virus-dataflow@ebi.ac.uk">virus-dataflow@ebi.ac.uk</a></p>
 
-                    <button (click)="sendEmail()" [disabled]="!folder" class="upload-area-button-row vf-button vf-button--primary" mat-raised-button>
+                    <button (click)="sendEmail()" [disabled]="!folder"
+                            class="upload-area-button-row vf-button vf-button--primary" mat-raised-button>
                         Submit Files
                     </button>
 
