@@ -42,9 +42,9 @@ export class DragNDropComponent {
     root = 'root';
     files: any[] = [];
     validFileExtensions: any[] = ['.bam', '.cram', '.xls', '.xlsx', '.xlsm', '.tsv', '.csv', '.txt', '.fastq.gz', '.fastq.bz2', '.fq.gz', '.fq.bz2'];
-    spreadhseetExtensions: any[] = ['.xls', '.xlsx', '.xlsm', '.csv', '.tsv', '.txt'];
+    spreadSheetExtensions: any[] = ['.xls', '.xlsx', '.xlsm', '.csv', '.tsv', '.txt'];
     invalidFileNames: any;
-    uploadedFiles = {};
+    uploadedFiles: any[] = [];
     contactComponent = new cc();
     notes: any;
     toShow = true;
@@ -94,7 +94,7 @@ export class DragNDropComponent {
             const indexOfDot = file.name.lastIndexOf('.');
             const extension = file.name.substring(indexOfDot);
 
-            if (this.spreadhseetExtensions.includes(extension)) {
+            if (this.spreadSheetExtensions.includes(extension)) {
                 metadataSheetPresent = true;
             }
         }
@@ -117,7 +117,7 @@ export class DragNDropComponent {
             const indexOfDot = file.name.indexOf('.');
             const extension = file.name.substring(indexOfDot);
 
-            if (this.spreadhseetExtensions.includes(extension)) {
+            if (this.spreadSheetExtensions.includes(extension)) {
                 const now = new Date();
                 file.id = now.toISOString();
             } else {
@@ -132,7 +132,7 @@ export class DragNDropComponent {
                 ContentType: file.type
             };
 
-            const options = {partSize: 50 * 1024 * 1024, queueSize: 10};
+            const options = {partSize: 30 * 1024 * 1024, queueSize: 10};
 
             this.bucket.upload(params, options).on('httpUploadProgress', evt => {
                 // tslint:disable-next-line:triple-equals
@@ -156,115 +156,6 @@ export class DragNDropComponent {
             });
         }
     }
-
-    onParallelUpload() {
-        /*this.fileWithInvalidExtension = false;
-       this.isValid = true;
-       this.uploadFinished = false;
-       this.spreadSheetPresent = true;
-       this.consentHandler = true;
-
-       let metadataSheetPresent = false;
-
-       for (const file of this.files) {
-           const indexOfDot = file.name.indexOf('.');
-           const extension = file.name.substring(indexOfDot);
-
-           if (!this.validFileExtensions.includes(extension)) {
-               this.fileWithInvalidExtension = true;
-               return;
-           }
-       }
-
-       for (const file of this.files) {
-           const indexOfDot = file.name.lastIndexOf('.');
-           const extension = file.name.substring(indexOfDot);
-
-           if (this.spreadhseetExtensions.includes(extension)) {
-               metadataSheetPresent = true;
-           }
-       }
-
-       this.spreadSheetPresent = metadataSheetPresent;
-
-       if (!this.spreadSheetPresent) {
-           return;
-       }
-
-       this.consentHandler = this.consent;
-
-       if (!this.consentHandler) {
-           return;
-       }
-
-      for (const file of this.files) {
-           this.fileWithInvalidExtension = false;
-
-           const indexOfDot = file.name.indexOf('.');
-           const extension = file.name.substring(indexOfDot);
-
-           if (this.spreadhseetExtensions.includes(extension)) {
-               const now = new Date();
-               file.id = now.toISOString();
-           } else {
-               file.id = new Md5().appendStr(String(new Date().getTime())).end();
-           }
-
-           const params = {
-               Bucket: this.bucketName,
-               Key: this.folder + '/' + file.name + '.' + file.id,
-               Body: file,
-               ACL: 'private',
-               ContentType: file.type
-           };
-
-           const options = {partSize: 20 * 1024 * 1024, queueSize: 2};
-
-           this.bucket.upload(params, options).on('httpUploadProgress', evt => {
-               // tslint:disable-next-line:triple-equals
-               this.files = this.files.filter(f => file.id != f.id);
-               file.loaded = evt.loaded;
-               file.total = evt.total;
-               file.percentage = evt.loaded / evt.total * 100;
-
-               if (file.percentage === 100) {
-                   this.uploadFinished = true;
-               }
-
-               this.uploadedFiles[file.id] = file;
-           }).send((err, data) => {
-               if (err) {
-                   alert(err);
-                   return;
-               }
-               file.location = data.Location;
-               this.uploadedFiles[file.id] = file;
-           });
-       }
-
-       const PARALLEL_UPLOADS = 10;
-       const q = async.queue((task, callback) => {
-           this.bucket.upload({
-               Bucket: this.bucketName,
-               Key: task.dest,
-               Body: task.src
-           }, callback);
-       }, PARALLEL_UPLOADS);
-
-       // tslint:disable-next-line:only-arrow-functions
-       q.drain = function() {
-           console.log('all items have been processed');
-       };
-
-       for (const file of this.files) {
-           file.id = new Md5().appendStr(String(new Date().getTime())).end();
-
-           q.push([
-               {src: file, dest: this.folder + '/' + file.name + '.' + file.id},
-           ]);
-       }*/
-    }
-
 
     getInvalidFiles(): any {
         return this.invalidFileNames;
@@ -314,6 +205,7 @@ export class DragNDropComponent {
     }
 
     async loadList() {
+        this.uploadedFileList = [];
         this.toLoad = true;
 
         this.bucket.listObjects({
@@ -369,17 +261,26 @@ export class DragNDropComponent {
     }
 
     async sendEmail() {
-        this.uploadedFileList = [];
+        this.loadList();
         const email = 'virus-dataflow@ebi.ac.uk';
         this.emailSent = await this.contactComponent.sendMessage(email, this.folder, this.notes);
         this.notes = '';
         this.submitted = true;
         this.everythingIsDone = true;
-        this.loadList();
     }
 
     getUploadedFiles(): any[] {
         return Object.values(this.uploadedFiles);
+    }
+
+    getUploadComplete(): boolean {
+        for (const file of this.uploadedFiles) {
+            if (file.percentage !== 100) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     alertUser() {
