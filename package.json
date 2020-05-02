@@ -24,12 +24,10 @@
     "angular-progress-bar": "^1.0.11",
     "async": "^3.2.0",
     "aws-sdk": "^2.658.0",
-    "fs": "0.0.1-security",
     "ngx-dropzone": "^2.2.2",
     "rxjs": "~6.5.4",
     "ts-md5": "^1.2.7",
     "tslib": "^1.10.0",
-    "tus-js-client": "^1.8.0",
     "uuid": "^7.0.3",
     "zone.js": "~0.10.2"
   },
