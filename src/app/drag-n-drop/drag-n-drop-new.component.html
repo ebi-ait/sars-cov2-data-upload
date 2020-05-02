@@ -1,92 +1,106 @@
 <div class="vf-body vf-u-margin__top--xxl">
     <section class="vf-summary-container | embl-grid">
-        <div [class.vf-u-text-color--grey]="isValid"  class="vf-section-header">
-            <h2 class="vf-section-header__heading">Login</h2><p>Step 1 of 3</p>
+        <div [class.vf-u-text-color--grey]="isValid" class="vf-section-header">
+            <h2 class="vf-section-header__heading">Login</h2>
+            <p>Step 1 of 3</p>
         </div>
 
         <section class="vf-grid vf-grid__col-4">
             <div class="vf-grid__col--span-3">
                 <!-- <label for="text" class="vf-form__label vf-form__label--required vf-u-type__text-body--4"><span class="vf-u-sr-only">this field is required.</span> <span class="vf-icon vf-icon--asterick"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>asterick</title><path d="M23.555,8.729a1.505,1.505,0,0,0-1.406-.98H16.062a.5.5,0,0,1-.472-.334L13.405,1.222a1.5,1.5,0,0,0-2.81,0l-.005.016L8.41,7.415a.5.5,0,0,1-.471.334H1.85A1.5,1.5,0,0,0,.887,10.4l5.184,4.3a.5.5,0,0,1,.155.543L4.048,21.774a1.5,1.5,0,0,0,2.31,1.684l5.346-3.92a.5.5,0,0,1,.591,0l5.344,3.919a1.5,1.5,0,0,0,2.312-1.683l-2.178-6.535a.5.5,0,0,1,.155-.543l5.194-4.306A1.5,1.5,0,0,0,23.555,8.729Z"></path></svg></span></label> -->
                 <label for="text" class="vf-form__label vf-form__label--required vf-u-type__text-body--4"></label>
-                <label *ngIf="!isValid"  for="text" class="vf-form__label">Enter your secure key</label>
-                <label *ngIf="isValid"  for="text" class="vf-form__label">Your secure key</label>
+                <label *ngIf="!isValid" for="text" class="vf-form__label">Enter your secure key</label>
+                <label *ngIf="isValid" for="text" class="vf-form__label">Your secure key</label>
 
                 <input [(ngModel)]="folder" [attr.disabled]="tbDisabled ? '' : null" required
-                       type="text"  class="vf-form__input" placeholder="format: xxxxx-xxx-xxxx-xxxxx">
+                       type="text" class="vf-form__input" placeholder="format: xxxxx-xxx-xxxx-xxxxx">
 
                 <div class="upload-area-button-row">
                     <p *ngIf="!isValid" class="vf-form__helper">
-                        <button (click)="onLoading()" class="vf-button "[class.vf-button--warn]="!folder"
+                        <button (click)="onLoading()" class="vf-button " [class.vf-button--warn]="!folder"
                                 [class.vf-button--primary]="folder">
                             Login
                         </button>
                     </p>
                     <p *ngIf="isValid" class="vf-form__helper">
-                        <button color="primary" (click)="onReset()" [disabled]="!folder" class="vf-button vf-button--tertiary">Reset</button>
+                        <button color="primary" (click)="onReset()" [disabled]="!folder"
+                                class="vf-button vf-button--tertiary">Reset
+                        </button>
                     </p>
                 </div>
 
                 <p class="vf-form__helper vf-form__helper--error vf-u-type__text-body--3" *ngIf="!toShow">
 
                     The secure key entered by you is not valid, please enter a valid secure key. <br/>
-                    Please contact <a href="mailto:virus-dataflow@ebi.ac.uk">virus-dataflow@ebi.ac.uk</a> if you need a new key or for any problems with your existing key
+                    Please contact <a href="mailto:virus-dataflow@ebi.ac.uk">virus-dataflow@ebi.ac.uk</a> if you need a
+                    new key or for any problems with your existing key
                 </p>
             </div>
         </section>
     </section>
 </div>
 
-<div *ngIf="isValid"  class="vf-body vf-u-margin__top--xxl">
+<div *ngIf="isValid" class="vf-body vf-u-margin__top--xxl">
     <section class="vf-summary-container | embl-grid">
-        <div [class.vf-u-text-color--grey]="getUploadedFiles().length && isValid"  class="vf-section-header">
-            <h2 class="vf-section-header__heading">Upload files</h2><p>Step 2 of 3</p>
+        <div [class.vf-u-text-color--grey]="getUploadedFiles().length && isValid" class="vf-section-header">
+            <h2 class="vf-section-header__heading">Upload files</h2>
+            <p>Step 2 of 3</p>
         </div>
 
         <section class="vf-grid vf-grid__col-4">
             <div class="vf-grid__col--span-3">
-                <label  for="upload" class="vf-form__label">Select files</label>
+                <label for="upload" class="vf-form__label">Select files</label>
                 <ngx-dropzone (change)="onSelect($event)" class="upload-area" [expandable]="true">
                     <ngx-dropzone-label>Drag n' drop some files here, or click to select files. <br/>
-                        (Accepted formats are: .fastq.gz, .fastq.bz2, .fq.gz, .fq.bz2, .bam, .cram, .xls, .xlsx, .tsv, .csv, .txt.)
+                        (Accepted formats are: .fastq.gz, .fastq.bz2, .fq.gz, .fq.bz2, .bam, .cram, .xls, .xlsx, .tsv,
+                        .csv, .txt.)
                     </ngx-dropzone-label>
                     <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
                         <ngx-dropzone-label>{{ f.name }} - {{ f.size }} bytes</ngx-dropzone-label>
                     </ngx-dropzone-preview>
                 </ngx-dropzone>
 
-                <p *ngIf="!fileWithInvalidExtension && spreadSheetPresent" class="vf-u-margin__top--md vf-u-margin__bottom--sm">
-                    Please don't close the browser or refresh once you pressed the "Upload files" button. It might take a while for the files to get uploaded.
+                <p *ngIf="!fileWithInvalidExtension && spreadSheetPresent"
+                   class="vf-u-margin__top--md vf-u-margin__bottom--sm">
+                    Please don't close the browser or refresh once you pressed the "Upload files" button. It might take
+                    a while for the files to get uploaded.
                     You will get a message/notification once the file upload is complete</p>
 
                 <p class="vf-u-margin__top--md vf-u-margin__bottom--sm">
-                    <input type="checkbox" name="consent" [(ngModel)]="consent"/> The Data uploader service requires limited processing of personal data in order to function.
+                    <input type="checkbox" name="consent" [(ngModel)]="consent"/> The Data uploader service requires
+                    limited processing of personal data in order to function.
                     Please check this box to confirm that you are consenting to this, and that you have obtained
                     the consent of any other identified individuals in your submission, as outlined in our
-                    <a href="https://www.ebi.ac.uk/data-protection/privacy-notice/covid-19-data-portal-uploader">Submission Privacy Notice </a> </p>
+                    <a href="https://www.ebi.ac.uk/data-protection/privacy-notice/covid-19-data-portal-uploader">Submission
+                        Privacy Notice </a></p>
 
-                <div class="upload-area-button-row" >
+                <div class="upload-area-button-row">
                     <button (click)="folder && files.length && onUpload()" [disabled]="files.length == 0"
-                            class="vf-button "[class.vf-button--warn]="files.length == 0"
+                            class="vf-button " [class.vf-button--warn]="files.length == 0"
                             [class.vf-button--primary]="files.length > 0">
                         Upload Files
                     </button>
                 </div>
 
-                <p *ngIf="fileWithInvalidExtension" class="vf-u-margin__top--xxl vf-form__helper vf-form__helper--error vf-u-type__text-body--3">
+                <p *ngIf="fileWithInvalidExtension"
+                   class="vf-u-margin__top--xxl vf-form__helper vf-form__helper--error vf-u-type__text-body--3">
                     You have a file with an extension that is not accepted, please remove the file and re-upload.
-                    <br/>Accepted formats are: .fastq.gz, .fastq.bz2, .fq.gz, .fq.bz2, .bam, .cram, .xls, .xlsx, .tsv, .csv, .txt.
+                    <br/>Accepted formats are: .fastq.gz, .fastq.bz2, .fq.gz, .fq.bz2, .bam, .cram, .xls, .xlsx, .tsv,
+                    .csv, .txt.
                     <br/>Please delete the file by clicking the cross in the top right corner of the file.
                     <br/> To submit files in an unsupported format please email our help-desk at
                     <a href="mailto:virus-dataflow@ebi.ac.uk">virus-dataflow@ebi.ac.uk</a>.
                 </p>
-                <p *ngIf="!fileWithInvalidExtension && !spreadSheetPresent" class="vf-u-margin__top--xxl vf-form__helper vf-form__helper--error vf-u-type__text-body--3">
+                <p *ngIf="!fileWithInvalidExtension && !spreadSheetPresent"
+                   class="vf-u-margin__top--xxl vf-form__helper vf-form__helper--error vf-u-type__text-body--3">
                     You have not added the metadata file for your submission.
-                    <br/> The metadata file helps us to know details of the data files you are submitting. 
+                    <br/> The metadata file helps us to know details of the data files you are submitting.
                     <br/> Please submit this file in one of the following formats: .xls, .xlxs, .tsv, .csv, .txt
                     <br/> To know more please email our help-desk at
                     <a href="mailto:virus-dataflow@ebi.ac.uk">virus-dataflow@ebi.ac.uk</a>.
                 </p>
-                <p *ngIf="!fileWithInvalidExtension && spreadSheetPresent && !consentHandler" class="vf-u-margin__top--xxl vf-form__helper vf-form__helper--error vf-u-type__text-body--3">
+                <p *ngIf="!fileWithInvalidExtension && spreadSheetPresent && !consentHandler"
+                   class="vf-u-margin__top--xxl vf-form__helper vf-form__helper--error vf-u-type__text-body--3">
                     Please provide your consent by checking the box
                     <br/> In case of queries please email our help-desk at
                     <a href="mailto:virus-dataflow@ebi.ac.uk">virus-dataflow@ebi.ac.uk</a>.
@@ -102,7 +116,8 @@
 <div *ngIf="getUploadedFiles().length && isValid" class="vf-body vf-u-margin__top--xxl">
     <section class="vf-summary-container | embl-grid">
         <div class="vf-section-header">
-            <h2 class="vf-section-header__heading">Submit files</h2><p>Step 3 of 3</p>
+            <h2 class="vf-section-header__heading">Submit files</h2>
+            <p>Step 3 of 3</p>
         </div>
 
         <section class="vf-grid vf-grid__col-4">
@@ -126,10 +141,12 @@
                     <label class="vf-form__label">Add your notes (max 200 characters **)</label>
                     <input type="text" [(ngModel)]="notes" matInput maxlength="200" class="vf-form__input">
 
-                    <p class="vf-u-margin__top--md vf-u-margin__bottom--sm">Press Submit to get your submission processed and a notification sent to
+                    <p class="vf-u-margin__top--md vf-u-margin__bottom--sm">Press Submit to get your submission
+                        processed and a notification sent to
                         <a _ngcontent-vxk-c68="" href="mailto:virus-dataflow@ebi.ac.uk">virus-dataflow@ebi.ac.uk</a></p>
 
-                    <button (click)="sendEmail()" [disabled]="!folder" class="upload-area-button-row vf-button vf-button--primary" mat-raised-button>
+                    <button (click)="sendEmail()" [disabled]="!folder"
+                            class="upload-area-button-row vf-button vf-button--primary" mat-raised-button>
                         Submit Files
                     </button>
 
