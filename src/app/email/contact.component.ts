@@ -29,12 +29,12 @@ export class ContactComponent {
                 Body: {
                     Text: {
                         Charset: 'UTF-8',
-                        Data: email + ' has submitted files in ' + folder + '\n with message ' + notes
+                        Data: 'New files have been submitted files in ' + folder + '\n with message ' + notes
                     }
                 },
                 Subject: {
                     Charset: 'UTF-8',
-                    Data: 'Submission received from ' + email
+                    Data: 'Submission received in ' + folder
                 }
             },
             Source: 'dgupta@ebi.ac.uk' // Must be registered with AWS
@@ -65,7 +65,6 @@ export class ContactComponent {
             if (err) {
                 console.log(err, err.stack);
             } else {
-                console.log(data);
                 console.log('Email sent');
                 sendEmail = true;
             }
