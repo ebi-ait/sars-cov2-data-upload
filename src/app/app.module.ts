@@ -9,6 +9,7 @@ import {AppComponent} from './app.component';
 import {DragNDropComponent} from './drag-n-drop/drag-n-drop.component';
 import {ContactComponent} from './email/contact.component';
 import {DocumentationComponent} from './documentation/documentation.component';
+import {HelpComponent} from './help/help.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
@@ -27,6 +28,7 @@ import {FooterComponent} from './shared/footer/footer.component';
 const appRoutes: Routes = [
     {path: 'app-documentation', component: DocumentationComponent},
     {path: 'app-drag-n-drop', component: DragNDropComponent},
+    {path: 'app-help', component: HelpComponent},
     {path: '', component: DragNDropComponent},
     {path: '*', component: DragNDropComponent}
 ];
@@ -37,6 +39,7 @@ const appRoutes: Routes = [
         DragNDropComponent,
         ContactComponent,
         DocumentationComponent,
+        HelpComponent,
         HeaderComponent,
         HeroComponent,
         FooterComponent,
