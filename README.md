@@ -21,7 +21,7 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 ## Production Build
 Replace AWS credential placeholders in <b>environment.prod.ts</b> with valid AWS access credentials
 <br/>
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build
+Run `ng build --prod` to do a production build of the project. The build artifacts will be stored in the `dist/` directory.
 
 
 
