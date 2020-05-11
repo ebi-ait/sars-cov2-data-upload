@@ -26,7 +26,6 @@ export class DragNDropComponent {
     displayedColumns: string[] = ['name', 'format', 'size', 'date'];
     uploadedFileList: UploadedRecords[] = [];
 
-
     private bucket = new aws.S3({
         apiVersion: '2006-03-01',
         region: 'us-east-1',
@@ -82,9 +81,11 @@ export class DragNDropComponent {
 
         for (const file of this.files) {
             const indexOfDot = file.name.indexOf('.');
+            const lastIndexOfDot = file.name.lastIndexOf('.');
             const extension = file.name.substring(indexOfDot);
+            const lastExtension = file.name.substring(lastIndexOfDot);
 
-            if (!this.validFileExtensions.includes(extension)) {
+            if (!(this.validFileExtensions.includes(extension) || this.validFileExtensions.includes(lastExtension))) {
                 this.fileWithInvalidExtension = true;
                 return;
             }
@@ -139,7 +140,7 @@ export class DragNDropComponent {
                 this.files = this.files.filter(f => file.id != f.id);
                 file.loaded = evt.loaded;
                 file.total = evt.total;
-                file.percentage = evt.loaded / evt.total * 100;
+                file.percentage = (evt.loaded / evt.total * 100).toFixed();
 
                 if (file.percentage === 100) {
                     this.uploadFinished = true;

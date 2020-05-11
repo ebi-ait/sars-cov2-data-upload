@@ -129,10 +129,10 @@
                     <tr *ngFor="let file of getUploadedFiles()">
                         <td>{{file.name}}</td>
                         <td>
-                            <!--<progress-bar [progress]="file.percentage"
-                                            [color-degraded]="{'0': '#007bff', '100': '#28a745'}"></progress-bar>-->
-                            <mat-progress-bar mode="determinate" [value]="file.percentage"
-                                              class="file-progress"></mat-progress-bar>
+                            <progress-bar [progress]="file.percentage"
+                                            [color-degraded]="{'0': '#007bff', '100': '#28a745'}"></progress-bar>
+                            <!--<mat-progress-bar mode="determinate" [value]="file.percentage"
+                                              class="file-progress"></mat-progress-bar>-->
                             <b *ngIf="file.percentage < 100">File is being uploaded, please don't refresh or close
                                 your browser</b>
                         </td>
