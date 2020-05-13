@@ -28,14 +28,16 @@ export class DragNDropComponent {
 
     private bucket = new aws.S3({
         apiVersion: '2006-03-01',
-        region: 'us-east-1',
+        region: 'eu-west-2',
+        s3ForcePathStyle: true,
         credentials: {
             accessKeyId: this.accessKey,
             secretAccessKey: this.secKey
-        }
+        },
+        endpoint: 'https://s3.embassy.ebi.ac.uk/'
     });
 
-    private bucketName = 'covid-util-upload-areas';
+    private bucketName = 'covid-utils-ui-88560523';
 
     folder = '';
     root = 'root';
