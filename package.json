@@ -24,6 +24,7 @@
     "angular-progress-bar": "^1.0.11",
     "async": "^3.2.0",
     "aws-sdk": "^2.670.0",
+    "email-validator": "^2.0.4",
     "ngx-dropzone": "^2.2.2",
     "rxjs": "~6.5.4",
     "ts-md5": "^1.2.7",

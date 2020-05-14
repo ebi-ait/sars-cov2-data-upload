@@ -11,14 +11,22 @@
                 <label for="text" class="vf-form__label vf-form__label--required vf-u-type__text-body--4"></label>
                 <label *ngIf="!isValid" for="text" class="vf-form__label">Enter your secure key</label>
                 <label *ngIf="isValid" for="text" class="vf-form__label">Your secure key</label>
-
                 <input [(ngModel)]="folder" [attr.disabled]="tbDisabled ? '' : null" required
                        type="text" class="vf-form__input" placeholder="format: xxxxx-xxx-xxxx-xxxxx">
 
+                <label for="text" class="vf-form__label">Enter your name</label>
+                <input [(ngModel)]="name" [attr.disabled]="tbDisabled ? '' : null" required
+                       type="text" class="vf-form__input">
+
+                <label for="text" class="vf-form__label">Enter your email</label>
+                <input [(ngModel)]="email" [attr.disabled]="tbDisabled ? '' : null" required
+                       type="text" class="vf-form__input">
+
+
                 <div class="upload-area-button-row">
                     <p *ngIf="!isValid" class="vf-form__helper">
-                        <button (click)="onLoading()" class="vf-button " [class.vf-button--warn]="!folder"
-                                [class.vf-button--primary]="folder">
+                        <button (click)="validate() && onLoading()" class="vf-button " [class.vf-button--warn]="!folder && !name && !email"
+                                [class.vf-button--primary]="folder && name && email">
                             Login
                         </button>
                     </p>
@@ -29,8 +37,10 @@
                     </p>
                 </div>
 
+                <p class="vf-form__helper vf-form__helper--error vf-u-type__text-body--3" *ngIf="!allDetailsEnteredAndValid">
+                    {{validationMessage}}
+                </p>
                 <p class="vf-form__helper vf-form__helper--error vf-u-type__text-body--3" *ngIf="!toShow">
-
                     The secure key you have entered is not valid, please try again. <br/>
                     Please contact <a href="mailto:virus-dataflow@ebi.ac.uk">virus-dataflow@ebi.ac.uk</a> if you need a
                     new key or for any problems with your existing key.

@@ -4,12 +4,14 @@ import {MatTable} from '@angular/material/table';
 import {Md5} from 'ts-md5/dist/md5';
 import {environment as env} from '../../environments/environment';
 import * as aws from 'aws-sdk';
+import * as emailValidator from 'email-validator';
 
 export interface UploadedRecords {
     name: string;
     format: string;
     size: string;
     date: string;
+    dateTime: Date;
 }
 
 @Component({
@@ -38,6 +40,8 @@ export class DragNDropComponent {
     private bucketName = 'covid-util-upload-areas';
 
     folder = '';
+    name = '';
+    email = '';
     root = 'root';
     files: any[] = [];
     validFileExtensions: any[] = ['.bam', '.cram', '.xls', '.xlsx', '.xlsm', '.tsv', '.csv', '.txt', '.fastq.gz', '.fastq.bz2', '.fq.gz', '.fq.bz2'];
@@ -58,6 +62,25 @@ export class DragNDropComponent {
     everythingIsDone = false;
     consent: false;
     consentHandler = true;
+    allDetailsEnteredAndValid = true;
+    validationMessage = '';
+
+    validate() {
+        this.allDetailsEnteredAndValid = true;
+
+        if (!this.email || !this.name || !this.folder) {
+            this.allDetailsEnteredAndValid = false;
+            this.validationMessage = 'You have not entered all the required information. ' +
+                'Please enter your secure key, name and email address to Logon';
+            return this.allDetailsEnteredAndValid;
+        } else if (!emailValidator.validate(this.email)) {
+            this.allDetailsEnteredAndValid = false;
+            this.validationMessage = 'Please enter a valid email address.';
+            return this.allDetailsEnteredAndValid;
+        }
+
+        return this.allDetailsEnteredAndValid;
+    }
 
     onSelect(event) {
         this.files.push(...event.addedFiles.map(file => {
@@ -69,7 +92,8 @@ export class DragNDropComponent {
         this.files.splice(this.files.indexOf(event), 1);
     }
 
-    onUpload() {
+    async onUpload() {
+        const now = new Date();
         aws.config.httpOptions.timeout = 0;
         this.fileWithInvalidExtension = false;
         this.isValid = true;
@@ -113,13 +137,13 @@ export class DragNDropComponent {
         }
 
         for (const file of this.files) {
+            file.timestamp = now.getTime();
             this.fileWithInvalidExtension = false;
 
             const indexOfDot = file.name.indexOf('.');
             const extension = file.name.substring(indexOfDot);
 
             if (this.spreadSheetExtensions.includes(extension)) {
-                const now = new Date();
                 file.id = now.toISOString();
             } else {
                 file.id = new Md5().appendStr(String(new Date().getTime())).end();
@@ -135,14 +159,15 @@ export class DragNDropComponent {
 
             const options = {partSize: 30 * 1024 * 1024, queueSize: 10};
 
-            this.bucket.upload(params, options).on('httpUploadProgress', evt => {
+            await this.bucket.upload(params, options).on('httpUploadProgress', evt => {
+                this.uploadFinished = false;
                 // tslint:disable-next-line:triple-equals
                 this.files = this.files.filter(f => file.id != f.id);
                 file.loaded = evt.loaded;
                 file.total = evt.total;
                 file.percentage = (evt.loaded / evt.total * 100).toFixed();
 
-                if (file.percentage === 100) {
+                if (file.percentage === '100') {
                     this.uploadFinished = true;
                 }
 
@@ -216,8 +241,6 @@ export class DragNDropComponent {
             if (err) {
                 console.error(err); // an error occurred
             } else {
-                console.log(data.Contents);
-
                 for (const dataFile of data.Contents) {
                     let fileKey = dataFile.Key.split('/');
                     let filename = '';
@@ -242,14 +265,18 @@ export class DragNDropComponent {
                             name: filename,
                             format: fileExtension,
                             size: String(dataFile.Size),
-                            date: String(dataFile.LastModified)
+                            date: String(dataFile.LastModified),
+                            dateTime: dataFile.LastModified
                         };
                         this.uploadedFileList.push(dataRecord);
-                        this.table.renderRows();
                     }
                 }
-
             }
+            this.uploadedFileList.sort((a, b) => {
+                return b.dateTime.getTime() - a.dateTime.getTime();
+            });
+
+            this.table.renderRows();
         });
     }
 
