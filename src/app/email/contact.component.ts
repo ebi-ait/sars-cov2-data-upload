@@ -19,7 +19,7 @@ export class ContactComponent {
         this.configureSES();
     }
 
-    public sendMessage(email, folder, notes): boolean {
+    public sendMessage(email, folder, username, useremail, notes): boolean {
         let params;
         params = {
             Destination: {
@@ -29,7 +29,8 @@ export class ContactComponent {
                 Body: {
                     Text: {
                         Charset: 'UTF-8',
-                        Data: 'New files have been submitted files in ' + folder + '\n with message ' + notes
+                        Data: 'New files have been submitted in ' + folder + '\nwith message: ' + notes + '.' +
+                            '\nSubmitter details are as: \n[name] ' + username + ' and \n[email] ' + useremail
                     }
                 },
                 Subject: {

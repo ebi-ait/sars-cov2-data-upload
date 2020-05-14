@@ -288,10 +288,10 @@ export class DragNDropComponent {
         this.uploadedFiles = [];
     }
 
-    async sendEmail() {
+    sendEmail() {
         this.loadList();
         const email = 'virus-dataflow@ebi.ac.uk';
-        this.emailSent = await this.contactComponent.sendMessage(email, this.folder, this.notes);
+        this.emailSent = this.contactComponent.sendMessage(email, this.folder, this.name, this.email, this.notes);
         this.notes = '';
         this.submitted = true;
         this.everythingIsDone = true;
