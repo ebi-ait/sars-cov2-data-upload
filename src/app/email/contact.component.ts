@@ -30,7 +30,7 @@ export class ContactComponent {
                     Text: {
                         Charset: 'UTF-8',
                         Data: 'New files have been submitted in ' + folder + '\nwith message: ' + notes + '.' +
-                            '\nSubmitter details are as: \n[name] ' + username + ' and \n[email] ' + useremail
+                            '\nSubmitter details are as: \n[name] ' + username + '\n[email] ' + useremail
                     }
                 },
                 Subject: {
