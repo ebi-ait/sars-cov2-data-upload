@@ -27,6 +27,7 @@
     "email-validator": "^2.0.4",
     "ngx-dropzone": "^2.2.2",
     "rxjs": "~6.5.4",
+    "spark-md5": "^3.0.1",
     "ts-md5": "^1.2.7",
     "tslib": "^1.11.2",
     "uuid": "^7.0.3",
