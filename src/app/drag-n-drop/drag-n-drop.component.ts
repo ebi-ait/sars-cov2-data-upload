@@ -21,8 +21,8 @@ export interface UploadedRecords {
 })
 
 export class DragNDropComponent {
-    accessKey = env.ACCESSKEYBUCKET;
-    secKey = env.SECREYKEYBUCKET;
+    accessKey = env.ACCESSKEYBUCKET_1 + env.ACCESSKEYBUCKET_2;
+    secKey = env.SECREYKEYBUCKET_1 + env.SECREYKEYBUCKET_2;
 
     @ViewChild(MatTable) table: MatTable<any>;
     displayedColumns: string[] = ['name', 'format', 'size', 'date'];

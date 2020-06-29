@@ -12,8 +12,8 @@ export class ContactComponent {
 
     // tslint:disable-next-line:variable-name
     private _ses: SES;
-    accessKey = env.ACCESSKEYEMAIL;
-    secKey = env.SECRETKEYEMAIL;
+    accessKey = env.ACCESSKEYEMAIL_1 + env.ACCESSKEYEMAIL_2;
+    secKey = env.SECRETKEYEMAIL_1 + env.SECRETKEYEMAIL_2;
 
     constructor() {
         this.configureSES();
