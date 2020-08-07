@@ -46,7 +46,7 @@ export class DragNDropComponent {
     email = '';
     root = 'root';
     files: any[] = [];
-    validFileExtensions: any[] = ['.bam', '.cram', '.xls', '.xlsx', '.xlsm', '.tsv', '.csv', '.txt', '.fastq.gz', '.fastq.bz2', '.fq.gz', '.fq.bz2'];
+    validFileExtensions: any[] = ['.bam', '.cram', '.xls', '.xlsx', '.xlsm', '.tsv', '.csv', '.txt', '.fastq.gz', '.fastq.bz2', '.fq.gz', '.fq.bz2', '.fasta.gz', '.fasta.bz2', '.embl'];
     spreadSheetExtensions: any[] = ['.xls', '.xlsx', '.xlsm', '.csv', '.tsv', '.txt'];
     invalidFileNames: any;
     uploadedFiles: any[] = [];
