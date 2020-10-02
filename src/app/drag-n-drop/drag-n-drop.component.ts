@@ -151,42 +151,45 @@ export class DragNDropComponent {
                 file.id = await this.getMd5Hash(file);
             }
 
-            const params = {
-                Bucket: this.bucketName,
-                Key: this.folder + '/' + file.name + '.' + file.id,
-                Body: file,
-                ACL: 'private',
-                ContentType: file.type
-            };
-
-            const options = {partSize: 30 * 1024 * 1024, queueSize: 10};
-
-            await this.bucket.upload(params, options).on('httpUploadProgress', evt => {
-                this.uploadFinished = false;
-                // tslint:disable-next-line:triple-equals
-                this.files = this.files.filter(f => file.id != f.id);
-                file.loaded = evt.loaded;
-                file.total = evt.total;
-                file.percentage = (evt.loaded / evt.total * 100).toFixed();
-
-                if (file.percentage === '100') {
-                    this.uploadFinished = true;
-                }
-
-                this.uploadedFiles[file.id] = file;
-            }).send((err, data) => {
-                if (err) {
-                    alert(err);
-                    return;
-                }
-                file.location = data.Location;
-                this.uploadedFiles[file.id] = file;
-            });
+            await this.executeUploadOfFile(file);
         }
     }
 
-    getInvalidFiles(): any {
-        return this.invalidFileNames;
+    executeUploadOfFile(file) {
+        const options = {partSize: 45 * 1024 * 1024, queueSize: 2};
+        const params = {
+            Bucket: this.bucketName,
+            Key: this.folder + '/' + file.name + '.' + file.id,
+            Body: file,
+            ACL: 'private',
+            ContentType: file.type
+        };
+
+        return new Promise((resolve, reject) => this.bucket.upload(params, options).on('httpUploadProgress', evt => {
+            this.uploadFinished = false;
+            // tslint:disable-next-line:triple-equals
+            this.files = this.files.filter(f => file.id != f.id);
+            file.loaded = evt.loaded;
+            file.total = evt.total;
+            file.percentage = (evt.loaded / evt.total * 100).toFixed();
+
+            if (file.percentage === '100') {
+                this.uploadFinished = true;
+            }
+
+            this.uploadedFiles[file.id] = file;
+        }).send((err, data) => {
+            if (err) {
+                alert(err + ' INFORMATION # There has been a Network failure detected while the upload was being done. Please retry.');
+                this.files.push(file);
+                reject();
+            } else {
+                resolve();
+            }
+
+            file.location = data.Location;
+            this.uploadedFiles[file.id] = file;
+        }));
     }
 
     async onLoading() {
@@ -213,26 +216,10 @@ export class DragNDropComponent {
                 }
             );
 
-        this.loadList();
+        this.loadFileList();
     }
 
-    onDelete(file) {
-        this.bucket.deleteObject({
-            Bucket: this.bucketName,
-            Key: this.folder + '/',
-        })
-            .promise()
-            .then(
-                () => {
-                    console.log('Deleted ' + file);
-                },
-                err => {
-                    console.log(err);
-                }
-            );
-    }
-
-    async loadList() {
+    async loadFileList() {
         this.uploadedFileList = [];
         this.toLoad = true;
 
@@ -291,7 +278,7 @@ export class DragNDropComponent {
     }
 
     sendEmail() {
-        this.loadList();
+        this.loadFileList();
         const email = 'virus-dataflow@ebi.ac.uk';
         this.emailSent = this.contactComponent.sendMessage(email, this.folder, this.name, this.email, this.notes);
         this.notes = '';
@@ -303,27 +290,7 @@ export class DragNDropComponent {
         return Object.values(this.uploadedFiles);
     }
 
-    getUploadComplete(): boolean {
-        for (const file of this.uploadedFiles) {
-            if (file.percentage !== 100) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    alertUser() {
-        if (!this.everythingIsDone) {
-            alert('Do you really want to leave');
-        }
-    }
-
-    delay(ms: number) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
-
-    async computeChecksumMd5(file: File): Promise<string> {
+    async computeMD5Checksum(file: File): Promise<string> {
         return new Promise((resolve, reject) => {
             const chunkSize = 2097152; // Read in chunks of 2MB
             const spark = new SparkMD5.ArrayBuffer();
@@ -373,6 +340,6 @@ export class DragNDropComponent {
     }
 
     async getMd5Hash(file: any) {
-        return await this.computeChecksumMd5(file);
+        return await this.computeMD5Checksum(file);
     }
 }

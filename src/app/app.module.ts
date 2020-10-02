@@ -24,6 +24,7 @@ import {MatCardModule} from '@angular/material/card';
 import {HeaderComponent} from './shared/header/header.component';
 import {HeroComponent} from './shared/hero/hero.component';
 import {FooterComponent} from './shared/footer/footer.component';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
 
 const appRoutes: Routes = [
     {path: 'app-documentation', component: DocumentationComponent},
@@ -59,6 +60,7 @@ const appRoutes: Routes = [
         AppRoutingModule,
         MatProgressBarModule,
         MatCardModule,
+        HttpClientModule,
         RouterModule.forRoot(appRoutes)
     ],
     providers: [],
