@@ -48,7 +48,6 @@ export class DragNDropComponent {
     files: any[] = [];
     validFileExtensions: any[] = ['.bam', '.cram', '.xls', '.xlsx', '.xlsm', '.tsv', '.csv', '.txt', '.fastq.gz', '.fastq.bz2', '.fq.gz', '.fq.bz2', '.fasta.gz', '.fasta.bz2', '.embl'];
     spreadSheetExtensions: any[] = ['.xls', '.xlsx', '.xlsm', '.csv', '.tsv', '.txt'];
-    invalidFileNames: any;
     uploadedFiles: any[] = [];
     contactComponent = new cc();
     notes: any;
@@ -139,19 +138,25 @@ export class DragNDropComponent {
         }
 
         for (const file of this.files) {
-            file.timestamp = now.getTime();
-            this.fileWithInvalidExtension = false;
+            if (this.files.includes(file)) {
+                file.timestamp = now.getTime();
+                this.fileWithInvalidExtension = false;
 
-            const indexOfDot = file.name.indexOf('.');
-            const extension = file.name.substring(indexOfDot);
+                const indexOfDot = file.name.indexOf('.');
+                const extension = file.name.substring(indexOfDot);
 
-            if (this.spreadSheetExtensions.includes(extension)) {
-                file.id = now.toISOString();
-            } else {
-                file.id = await this.getMd5Hash(file);
+                if (this.spreadSheetExtensions.includes(extension)) {
+                    file.id = now.toISOString();
+                } else {
+                    file.id = await this.getMd5Hash(file);
+                }
+
+                await this.executeUploadOfFile(file);
             }
+        }
 
-            await this.executeUploadOfFile(file);
+        if (this.uploadedFiles.length >= this.files.length) {
+            this.uploadFinished = true;
         }
     }
 
@@ -173,15 +178,11 @@ export class DragNDropComponent {
             file.total = evt.total;
             file.percentage = (evt.loaded / evt.total * 100).toFixed();
 
-            if (file.percentage === '100') {
-                this.uploadFinished = true;
-            }
-
             this.uploadedFiles[file.id] = file;
         }).send((err, data) => {
             if (err) {
                 alert(err + ' INFORMATION # There has been a Network failure detected while the upload was being done. Please retry.');
-                this.files.push(file);
+                // this.files.push(file);
                 reject();
             } else {
                 resolve();
