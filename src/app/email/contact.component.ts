@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import * as aws from 'aws-sdk';
 import {SES} from 'aws-sdk';
 import {environment as env} from '../../environments/environment';
+import {WebinUser} from '../drag-n-drop/model/WebinUser';
 
 @Component({
     selector: 'app-contact',
@@ -19,18 +20,28 @@ export class ContactComponent {
         this.configureSES();
     }
 
-    public sendMessage(email, folder, username, useremail, notes): boolean {
+    // tslint:disable-next-line:max-line-length
+    public sendMessage(folder: string, username: string, useremail: string, notes: string, webinUser: WebinUser): boolean {
         let params;
+        let webinUserId = '';
+
+        if (webinUser === undefined) {
+            webinUserId = 'NOT FOUND';
+        } else {
+            webinUserId = webinUser.principle;
+        }
+
         params = {
             Destination: {
-                ToAddresses: [email]
+                ToAddresses: ['virus-dataflow@ebi.ac.uk', 'dgupta@ebi.ac.uk']
             },
             Message: {
                 Body: {
                     Text: {
                         Charset: 'UTF-8',
                         Data: 'New files have been submitted in ' + folder + '\nwith message: ' + notes + '.' +
-                            '\nSubmitter details are as: \n[name] ' + username + '\n[email] ' + useremail
+                            '\nSubmitter details are as: \n[name] ' + username + '\n[email] ' + useremail +
+                            '\nSubmitter Webin Submission Account ' + webinUserId
                     }
                 },
                 Subject: {
@@ -38,6 +49,7 @@ export class ContactComponent {
                     Data: 'Submission received in ' + folder
                 }
             },
+
             Source: 'dgupta@ebi.ac.uk' // Must be registered with AWS
         };
 

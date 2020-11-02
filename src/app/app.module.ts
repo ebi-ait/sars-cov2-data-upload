@@ -25,6 +25,7 @@ import {HeaderComponent} from './shared/header/header.component';
 import {HeroComponent} from './shared/hero/hero.component';
 import {FooterComponent} from './shared/footer/footer.component';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {WebinAuthService} from './drag-n-drop/service/webin-auth.service';
 
 const appRoutes: Routes = [
     {path: 'app-documentation', component: DocumentationComponent},
@@ -43,7 +44,7 @@ const appRoutes: Routes = [
         HelpComponent,
         HeaderComponent,
         HeroComponent,
-        FooterComponent,
+        FooterComponent
     ],
     imports: [
         BrowserModule,
@@ -63,7 +64,7 @@ const appRoutes: Routes = [
         HttpClientModule,
         RouterModule.forRoot(appRoutes)
     ],
-    providers: [],
+    providers: [WebinAuthService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

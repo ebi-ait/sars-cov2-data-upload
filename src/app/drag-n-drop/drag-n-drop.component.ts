@@ -5,6 +5,8 @@ import {environment as env} from '../../environments/environment';
 import * as aws from 'aws-sdk';
 import * as emailValidator from 'email-validator';
 import * as SparkMD5 from 'spark-md5';
+import {WebinAuthService} from './service/webin-auth.service';
+import {WebinUser} from './model/WebinUser';
 
 export interface UploadedRecords {
     name: string;
@@ -23,6 +25,9 @@ export interface UploadedRecords {
 export class DragNDropComponent {
     accessKey = env.ACCESSKEYBUCKET_1 + env.ACCESSKEYBUCKET_2;
     secKey = env.SECREYKEYBUCKET_1 + env.SECREYKEYBUCKET_2;
+
+    constructor(private webinAuthService: WebinAuthService) {
+    }
 
     @ViewChild(MatTable) table: MatTable<any>;
     displayedColumns: string[] = ['name', 'format', 'size', 'date'];
@@ -65,6 +70,22 @@ export class DragNDropComponent {
     consentHandler = true;
     allDetailsEnteredAndValid = true;
     validationMessage = '';
+    webinUser: WebinUser;
+    errorMessage;
+
+    getWebinUser() {
+        this.errorMessage = '';
+        this.webinAuthService.getWebinUser(this.email)
+            .subscribe(
+                (response) => {
+                    this.webinUser = response;
+                },
+                (error) => {
+                    this.errorMessage = error;
+                },
+                () => {
+                });
+    }
 
     validate() {
         this.allDetailsEnteredAndValid = true;
@@ -78,6 +99,10 @@ export class DragNDropComponent {
             this.allDetailsEnteredAndValid = false;
             this.validationMessage = 'Please enter a valid email address.';
             return this.allDetailsEnteredAndValid;
+        }
+
+        if (this.allDetailsEnteredAndValid) {
+            this.getWebinUser();
         }
 
         return this.allDetailsEnteredAndValid;
@@ -280,8 +305,7 @@ export class DragNDropComponent {
 
     sendEmail() {
         this.loadFileList();
-        const email = 'virus-dataflow@ebi.ac.uk';
-        this.emailSent = this.contactComponent.sendMessage(email, this.folder, this.name, this.email, this.notes);
+        this.emailSent = this.contactComponent.sendMessage(this.folder, this.name, this.email, this.notes, this.webinUser);
         this.notes = '';
         this.submitted = true;
         this.everythingIsDone = true;
@@ -313,9 +337,6 @@ export class DragNDropComponent {
             }
 
             // when it's available in memory, process it
-            // If using TS >= 3.6, you can use `FileReaderProgressEvent` type instead
-            // of `any` for `e` variable, otherwise stick with `any`
-            // See https://github.com/Microsoft/TypeScript/issues/25510
             // tslint:disable-next-line:only-arrow-functions
             fileReader.onload = function(e: any): void {
                 spark.append(e.target.result); // Accumulate chunk to md5 computation
