@@ -21,14 +21,19 @@ export class ContactComponent {
     }
 
     // tslint:disable-next-line:max-line-length
-    public sendMessage(folder: string, username: string, useremail: string, notes: string, webinUser: WebinUser): boolean {
+    // tslint:disable-next-line:max-line-length
+    public sendMessage(folder: string, username: string, useremail: string, notes: string, hasWebinId: boolean, webinId: string): boolean {
         let params;
-        let webinUserId = '';
+        let data = '';
 
-        if (webinUser === undefined) {
-            webinUserId = 'NOT FOUND';
+        if (hasWebinId) {
+            data = 'New files have been submitted in ' + folder + '\nwith message: ' + notes + '.' +
+                '\nSubmitter details are as: \n[name] ' + username + '\n[email] ' + useremail +
+                '\nSubmitter Webin Submission Account - ' + webinId.toUpperCase();
         } else {
-            webinUserId = webinUser.principle;
+            data = 'New files have been submitted in ' + folder + '\nwith message: ' + notes + '.' +
+                '\nSubmitter details are as: \n[name] ' + username + '\n[email] ' + useremail +
+                '\nSubmitter does not have a Webin Submission Account';
         }
 
         params = {
@@ -39,9 +44,7 @@ export class ContactComponent {
                 Body: {
                     Text: {
                         Charset: 'UTF-8',
-                        Data: 'New files have been submitted in ' + folder + '\nwith message: ' + notes + '.' +
-                            '\nSubmitter details are as: \n[name] ' + username + '\n[email] ' + useremail +
-                            '\nSubmitter Webin Submission Account ' + webinUserId
+                        Data: data
                     }
                 },
                 Subject: {

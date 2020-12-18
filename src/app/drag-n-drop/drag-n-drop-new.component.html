@@ -22,10 +22,20 @@
                 <input [(ngModel)]="email" [attr.disabled]="tbDisabled ? '' : null" required
                        type="text" class="vf-form__input">
 
+                <label for="text" class="vf-form__label">Do you have a Webin Submission Account?
+                    <input type="radio" [value]="true" [(ngModel)]="hasWebinId"> Yes
+                    <input type="radio" [value]="false" [(ngModel)]="hasWebinId"> No
+                </label>
+                <br>
+
+                <label *ngIf="hasWebinId" for="text" class="vf-form__label">Enter your Webin Submission Account
+                    ID</label>
+                <input *ngIf="hasWebinId" [(ngModel)]="webinId" type="text" class="vf-form__input" required>
 
                 <div class="upload-area-button-row">
                     <p *ngIf="!isValid" class="vf-form__helper">
-                        <button (click)="validate() && onLoading()" class="vf-button " [class.vf-button--warn]="!folder && !name && !email"
+                        <button (click)="validate() && onLoading()" class="vf-button "
+                                [class.vf-button--warn]="!folder && !name && !email"
                                 [class.vf-button--primary]="folder && name && email">
                             Login
                         </button>
@@ -37,7 +47,8 @@
                     </p>
                 </div>
 
-                <p class="vf-form__helper vf-form__helper--error vf-u-type__text-body--3" *ngIf="!allDetailsEnteredAndValid">
+                <p class="vf-form__helper vf-form__helper--error vf-u-type__text-body--3"
+                   *ngIf="!allDetailsEnteredAndValid">
                     {{validationMessage}}
                 </p>
                 <p class="vf-form__helper vf-form__helper--error vf-u-type__text-body--3" *ngIf="!toShow">
@@ -62,7 +73,8 @@
                 <label for="upload" class="vf-form__label">Select files</label>
                 <ngx-dropzone (change)="onSelect($event)" class="upload-area" [expandable]="true">
                     <ngx-dropzone-label>Drag n' drop some files here, or click to select files. <br/>
-                        (Accepted formats are: .fastq.gz, .fastq.bz2, .fq.gz, .fq.bz2, .fasta.gz, .fasta.bz2, .embl, .bam, .cram, .xls, .xlsx, .tsv,
+                        (Accepted formats are: .fastq.gz, .fastq.bz2, .fq.gz, .fq.bz2, .fasta.gz, .fasta.bz2, .embl,
+                        .bam, .cram, .xls, .xlsx, .tsv,
                         .csv, .txt.)
                     </ngx-dropzone-label>
                     <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
@@ -95,7 +107,8 @@
                 <p *ngIf="fileWithInvalidExtension"
                    class="vf-u-margin__top--xxl vf-form__helper vf-form__helper--error vf-u-type__text-body--3">
                     You have a file with an extension that is not accepted, please remove the file and re-upload.
-                    <br/>Accepted formats are: .fastq.gz, .fastq.bz2, .fq.gz, .fq.bz2, .fasta.gz, .fasta.bz2, .embl, .bam, .cram, .xls, .xlsx, .tsv,
+                    <br/>Accepted formats are: .fastq.gz, .fastq.bz2, .fq.gz, .fq.bz2, .fasta.gz, .fasta.bz2, .embl,
+                    .bam, .cram, .xls, .xlsx, .tsv,
                     .csv, .txt.
                     <br/>Please delete the file by clicking the cross in the top right corner of the file.
                     <br/> To submit files in an unsupported format please email our help-desk at
@@ -140,7 +153,7 @@
                         <td>{{file.name}}</td>
                         <td>
                             <progress-bar [progress]="file.percentage"
-                                            [color-degraded]="{'0': '#007bff', '100': '#28a745'}"></progress-bar>
+                                          [color-degraded]="{'0': '#007bff', '100': '#28a745'}"></progress-bar>
                             <!--<mat-progress-bar mode="determinate" [value]="file.percentage"
                                               class="file-progress"></mat-progress-bar>-->
                             <b *ngIf="file.percentage < 100">File is being uploaded, please don't refresh or close
@@ -162,8 +175,10 @@
                         Submit Files
                     </button>
 
-                    <h4 *ngIf="submitted">Submission complete. You will hear from the team by email within 2 working days,
-                        either with questions relating to data validation or with confirmation of successful submission and advice on accession numbers.</h4>
+                    <h4 *ngIf="submitted">Submission complete. You will hear from the team by email within 2 working
+                        days,
+                        either with questions relating to data validation or with confirmation of successful submission
+                        and advice on accession numbers.</h4>
                 </div>
             </div>
             <div class="vf-grid__col--span-1">

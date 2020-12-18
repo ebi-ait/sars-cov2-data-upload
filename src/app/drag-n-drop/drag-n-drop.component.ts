@@ -72,6 +72,8 @@ export class DragNDropComponent {
     validationMessage = '';
     webinUser: WebinUser;
     errorMessage;
+    webinId: any;
+    hasWebinId: any;
 
     getWebinUser() {
         this.errorMessage = '';
@@ -101,9 +103,9 @@ export class DragNDropComponent {
             return this.allDetailsEnteredAndValid;
         }
 
-        if (this.allDetailsEnteredAndValid) {
+       /* if (this.allDetailsEnteredAndValid) {
             this.getWebinUser();
-        }
+        }*/
 
         return this.allDetailsEnteredAndValid;
     }
@@ -305,7 +307,7 @@ export class DragNDropComponent {
 
     sendEmail() {
         this.loadFileList();
-        this.emailSent = this.contactComponent.sendMessage(this.folder, this.name, this.email, this.notes, this.webinUser);
+        this.emailSent = this.contactComponent.sendMessage(this.folder, this.name, this.email, this.notes, this.hasWebinId, this.webinId);
         this.notes = '';
         this.submitted = true;
         this.everythingIsDone = true;
