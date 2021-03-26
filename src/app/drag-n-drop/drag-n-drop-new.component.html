@@ -1,6 +1,6 @@
 <div class="vf-body vf-u-margin__top--xxl">
     <section class="vf-summary-container | embl-grid">
-        <div [class.vf-u-text-color--grey]="isValid" class="vf-section-header">
+        <div [class.vf-u-text-color--grey]="isValidUploadUUID" class="vf-section-header">
             <h2 class="vf-section-header__heading">Login</h2>
             <p>Step 1 of 3</p>
         </div>
@@ -9,8 +9,8 @@
             <div class="vf-grid__col--span-3">
                 <!-- <label for="text" class="vf-form__label vf-form__label--required vf-u-type__text-body--4"><span class="vf-u-sr-only">this field is required.</span> <span class="vf-icon vf-icon--asterick"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>asterick</title><path d="M23.555,8.729a1.505,1.505,0,0,0-1.406-.98H16.062a.5.5,0,0,1-.472-.334L13.405,1.222a1.5,1.5,0,0,0-2.81,0l-.005.016L8.41,7.415a.5.5,0,0,1-.471.334H1.85A1.5,1.5,0,0,0,.887,10.4l5.184,4.3a.5.5,0,0,1,.155.543L4.048,21.774a1.5,1.5,0,0,0,2.31,1.684l5.346-3.92a.5.5,0,0,1,.591,0l5.344,3.919a1.5,1.5,0,0,0,2.312-1.683l-2.178-6.535a.5.5,0,0,1,.155-.543l5.194-4.306A1.5,1.5,0,0,0,23.555,8.729Z"></path></svg></span></label> -->
                 <label for="text" class="vf-form__label vf-form__label--required vf-u-type__text-body--4"></label>
-                <label *ngIf="!isValid" for="text" class="vf-form__label">Enter your secure key</label>
-                <label *ngIf="isValid" for="text" class="vf-form__label">Your secure key</label>
+                <label *ngIf="!isValidUploadUUID" for="text" class="vf-form__label">Enter your secure key</label>
+                <label *ngIf="isValidUploadUUID" for="text" class="vf-form__label">Your secure key</label>
                 <input [(ngModel)]="folder" [attr.disabled]="tbDisabled ? '' : null" required
                        type="text" class="vf-form__input" placeholder="format: xxxxx-xxx-xxxx-xxxxx">
 
@@ -23,24 +23,30 @@
                        type="text" class="vf-form__input">
 
                 <label for="text" class="vf-form__label">Do you have a Webin Submission Account?
-                    <input type="radio" [value]="true" [(ngModel)]="hasWebinId"> Yes
-                    <input type="radio" [value]="false" [(ngModel)]="hasWebinId"> No
+                    <input type="radio" [value]="true" [(ngModel)]="hasWebinId"
+                           [attr.disabled]="tbDisabled ? '' : null"> Yes
+                    <input type="radio" [value]="false" [(ngModel)]="hasWebinId"
+                           [attr.disabled]="tbDisabled ? '' : null"> No
                 </label>
                 <br>
 
                 <label *ngIf="hasWebinId" for="text" class="vf-form__label">Enter your Webin Submission Account
                     ID</label>
-                <input *ngIf="hasWebinId" [(ngModel)]="webinId" type="text" class="vf-form__input" required>
+                <input *ngIf="hasWebinId" [(ngModel)]="webinId" type="text" class="vf-form__input"
+                       placeholder="format: WEBIN-XXXXX" [attr.disabled]="tbDisabled ? '' : null" required>
+
+                <a *ngIf="isShowWebinLink()" href="https://www.ebi.ac.uk/ena/submit/sra/#registration" target="_blank">
+                    Click here to create your Webin Submission Account</a>
 
                 <div class="upload-area-button-row">
-                    <p *ngIf="!isValid" class="vf-form__helper">
-                        <button (click)="validate() && onLoading()" class="vf-button "
+                    <p *ngIf="!isValidUploadUUID" class="vf-form__helper">
+                        <button (click)="validateAllLoginInputs() && loadUploadArea()" class="vf-button "
                                 [class.vf-button--warn]="!folder && !name && !email"
                                 [class.vf-button--primary]="folder && name && email">
                             Login
                         </button>
                     </p>
-                    <p *ngIf="isValid" class="vf-form__helper">
+                    <p *ngIf="isValidUploadUUID" class="vf-form__helper">
                         <button color="primary" (click)="onReset()" [disabled]="!folder"
                                 class="vf-button vf-button--tertiary">Reset
                         </button>
@@ -51,7 +57,7 @@
                    *ngIf="!allDetailsEnteredAndValid">
                     {{validationMessage}}
                 </p>
-                <p class="vf-form__helper vf-form__helper--error vf-u-type__text-body--3" *ngIf="!toShow">
+                <p class="vf-form__helper vf-form__helper--error vf-u-type__text-body--3" *ngIf="!toShowUploadArea">
                     The secure key you have entered is not valid, please try again. <br/>
                     Please contact <a href="mailto:virus-dataflow@ebi.ac.uk">virus-dataflow@ebi.ac.uk</a> if you need a
                     new key or for any problems with your existing key.
@@ -61,9 +67,9 @@
     </section>
 </div>
 
-<div *ngIf="isValid" class="vf-body vf-u-margin__top--xxl">
+<div *ngIf="isValidUploadUUID" class="vf-body vf-u-margin__top--xxl">
     <section class="vf-summary-container | embl-grid">
-        <div [class.vf-u-text-color--grey]="getUploadedFiles().length && isValid" class="vf-section-header">
+        <div [class.vf-u-text-color--grey]="getUploadedFiles().length && isValidUploadUUID" class="vf-section-header">
             <h2 class="vf-section-header__heading">Upload files</h2>
             <p>Step 2 of 3</p>
         </div>
@@ -138,7 +144,7 @@
     </section>
 </div>
 
-<div *ngIf="getUploadedFiles().length && isValid" class="vf-body vf-u-margin__top--xxl">
+<div *ngIf="getUploadedFiles().length && isValidUploadUUID" class="vf-body vf-u-margin__top--xxl">
     <section class="vf-summary-container | embl-grid">
         <div class="vf-section-header">
             <h2 class="vf-section-header__heading">Submit files</h2>
@@ -188,9 +194,9 @@
     </section>
 </div>
 
-<hr *ngIf="isValid" class="vf-divider vf-u-margin__bottom--xxl">
+<hr *ngIf="isValidUploadUUID" class="vf-divider vf-u-margin__bottom--xxl">
 
-<div *ngIf="isValid" class="vf-body vf-u-margin__top--xxl">
+<div *ngIf="isValidUploadUUID" class="vf-body vf-u-margin__top--xxl">
     <section class="vf-summary-container | embl-grid">
         <div class="vf-section-header">
             <h2 class="vf-section-header__heading">Your previous submissions</h2>
@@ -224,7 +230,7 @@
                         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                     </mat-table>
                     <br/>
-                    <div *ngIf="isValid && uploadedFileList.length === 0">No records found</div>
+                    <div *ngIf="isValidUploadUUID && uploadedFileList.length === 0">No records found</div>
                 </div>
             </div>
             <div class="vf-grid__col--span-1">

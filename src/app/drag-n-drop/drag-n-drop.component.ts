@@ -56,8 +56,8 @@ export class DragNDropComponent {
     uploadedFiles: any[] = [];
     contactComponent = new cc();
     notes: any;
-    toShow = true;
-    isValid = false;
+    toShowUploadArea = true;
+    isValidUploadUUID = false;
     tbDisabled = false;
     fileWithInvalidExtension = false;
     spreadSheetPresent = true;
@@ -74,6 +74,17 @@ export class DragNDropComponent {
     errorMessage;
     webinId: any;
     hasWebinId: any;
+    showWebinRegistrationLink = false;
+
+    isShowWebinLink() {
+        this.showWebinRegistrationLink = false;
+
+        if (!this.hasWebinId) {
+            this.showWebinRegistrationLink = true;
+        }
+
+        return this.showWebinRegistrationLink;
+    }
 
     getWebinUser() {
         this.errorMessage = '';
@@ -89,23 +100,29 @@ export class DragNDropComponent {
                 });
     }
 
-    validate() {
+    validateAllLoginInputs() {
         this.allDetailsEnteredAndValid = true;
 
-        if (!this.email || !this.name || !this.folder) {
+        if (!this.email || !this.name || !this.folder || !this.hasWebinId) {
             this.allDetailsEnteredAndValid = false;
             this.validationMessage = 'You have not entered all the required information. ' +
-                'Please enter your secure key, name and email address to Logon';
+                'Please enter your secure key, name and email address and WEBIN Submission Account ID to Logon';
             return this.allDetailsEnteredAndValid;
+        } else if (!this.webinId) {
+            this.allDetailsEnteredAndValid = false;
+            this.validationMessage = 'Please enter a valid WEBIN Submission Account ID';
+        } else if (this.webinId.length <= 6) {
+            this.allDetailsEnteredAndValid = false;
+            this.validationMessage = 'Please enter a valid WEBIN Submission Account ID';
         } else if (!emailValidator.validate(this.email)) {
             this.allDetailsEnteredAndValid = false;
             this.validationMessage = 'Please enter a valid email address.';
             return this.allDetailsEnteredAndValid;
         }
 
-       /* if (this.allDetailsEnteredAndValid) {
-            this.getWebinUser();
-        }*/
+        /* if (this.allDetailsEnteredAndValid) {
+             this.getWebinUser();
+         }*/
 
         return this.allDetailsEnteredAndValid;
     }
@@ -124,7 +141,7 @@ export class DragNDropComponent {
         const now = new Date();
         aws.config.httpOptions.timeout = 0;
         this.fileWithInvalidExtension = false;
-        this.isValid = true;
+        this.isValidUploadUUID = true;
         this.uploadFinished = false;
         this.spreadSheetPresent = true;
         this.consentHandler = true;
@@ -174,11 +191,11 @@ export class DragNDropComponent {
 
                 if (this.spreadSheetExtensions.includes(extension)) {
                     file.id = now.toISOString();
+                    await this.executeUploadOfFile(file, true);
                 } else {
                     file.id = await this.getMd5Hash(file);
+                    await this.executeUploadOfFile(file, false);
                 }
-
-                await this.executeUploadOfFile(file);
             }
         }
 
@@ -187,11 +204,17 @@ export class DragNDropComponent {
         }
     }
 
-    executeUploadOfFile(file) {
+    executeUploadOfFile(file, appendWebinId: boolean) {
         const options = {partSize: 45 * 1024 * 1024, queueSize: 2};
+        let key = this.folder + '/' + file.name + '.' + file.id;
+
+        if (appendWebinId) {
+            key = this.folder + '/' + this.webinId + '.' + file.name + '.' + file.id;
+        }
+
         const params = {
             Bucket: this.bucketName,
-            Key: this.folder + '/' + file.name + '.' + file.id,
+            Key: key,
             Body: file,
             ACL: 'private',
             ContentType: file.type
@@ -220,7 +243,7 @@ export class DragNDropComponent {
         }));
     }
 
-    async onLoading() {
+    async loadUploadArea() {
         this.files = [];
         this.fileWithInvalidExtension = false;
         this.uploadedFileList = [];
@@ -232,14 +255,14 @@ export class DragNDropComponent {
             .promise()
             .then(
                 (res: any) => {
-                    this.isValid = true;
-                    this.toShow = true;
+                    this.isValidUploadUUID = true;
+                    this.toShowUploadArea = true;
                     this.tbDisabled = true;
                 },
                 err => {
                     if (err.code === 'NotFound') {
-                        this.toShow = false;
-                        this.isValid = false;
+                        this.toShowUploadArea = false;
+                        this.isValidUploadUUID = false;
                     }
                 }
             );
@@ -300,7 +323,7 @@ export class DragNDropComponent {
     onReset() {
         this.folder = '';
         this.tbDisabled = false;
-        this.isValid = false;
+        this.isValidUploadUUID = false;
         this.uploadedFileList = [];
         this.uploadedFiles = [];
     }
